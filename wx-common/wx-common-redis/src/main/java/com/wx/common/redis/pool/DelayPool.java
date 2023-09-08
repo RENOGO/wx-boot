@@ -5,7 +5,7 @@ import com.wx.common.redis.util.RedisUtil;
 import org.springframework.stereotype.Component;
 
 /**
- * @Author wuweixin
+ * @Author wx
  * @Date 2022/3/7 14:52
  * @Version 1.0
  */

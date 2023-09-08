@@ -13,6 +13,8 @@
         <module>wx-gateway</module>
         <module>wx-services</module>
         <module>wx-common/wx-common-master/wx-common-master-redis</module>
+        <module>wx-demo</module>
+        <module>wx-common/wx-common-log</module>
     </modules>
 
 
@@ -23,7 +25,7 @@
     </parent>
 
     <properties>
-        <jackson.version>2.9.3</jackson.version>
+        <jackson.version>2.14.0</jackson.version>
         <hutool.version>5.5.4</hutool.version>
         <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
         <springfox-swagger-ui.version>2.9.2</springfox-swagger-ui.version>
@@ -34,7 +36,7 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-boot-starter -->
+<!--            mybatis plus-->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
@@ -42,31 +44,9 @@
             </dependency>
 
             <dependency>
-                <groupId>com.wx.boot</groupId>
-                <artifactId>wx-common-web</artifactId>
-                <version>${parent.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.wx.boot</groupId>
-                <artifactId>wx-common-swagger</artifactId>
-                <version>${parent.version}</version>
-            </dependency>
-
-
-            <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-generator</artifactId>
                 <version>${mybatis-plus-generator.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.wx.boot</groupId>
-                <artifactId>wx-common-lock-redis</artifactId>
-                <version>${parent.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.wx.boot</groupId>
-                <artifactId>wx-common-redis</artifactId>
-                <version>${parent.version}</version>
             </dependency>
 
             <!--            swagger-->
@@ -81,19 +61,17 @@
                 <artifactId>springfox-swagger-ui</artifactId>
                 <version>${springfox-swagger-ui.version}</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+<!--            -->
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
                 <version>${jackson.version}</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-core</artifactId>
                 <version>${jackson.version}</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
@@ -104,11 +82,39 @@
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
             </dependency>
+<!--            -->
             <dependency>
                 <groupId>com.wx.boot</groupId>
                 <artifactId>wx-common-core</artifactId>
-                <version>${parent.version}</version>
+                <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.wx.boot</groupId>
+                <artifactId>wx-common-web</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.wx.boot</groupId>
+                <artifactId>wx-common-swagger</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.wx.boot</groupId>
+                <artifactId>wx-common-lock-redis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.wx.boot</groupId>
+                <artifactId>wx-common-redis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.wx.boot</groupId>
+                <artifactId>wx-common-log</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+<!--            -->
+
         </dependencies>
     </dependencyManagement>
 

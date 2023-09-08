@@ -8,6 +8,7 @@
         <artifactId>wx-common</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
+    <packaging>pom</packaging>
 
     <artifactId>wx-common-master</artifactId>
 
@@ -16,5 +17,9 @@
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <modules>
+        <module>wx-common-master-redis</module>
+    </modules>
 
 </project>

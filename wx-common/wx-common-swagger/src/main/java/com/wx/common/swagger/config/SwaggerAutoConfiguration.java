@@ -4,7 +4,6 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.wx.common.constants.PropertiesPre;
 import com.wx.common.swagger.model.Header;
-import com.wx.common.swagger.model.SwaggerProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -40,31 +39,31 @@ public class SwaggerAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public SwaggerProperties customSwaggerProperties() {
-        return new SwaggerProperties();
+    public CommonSwaggerProperties customSwaggerProperties() {
+        return new CommonSwaggerProperties();
     }
 
     @Bean
-    public Docket api(SwaggerProperties customSwaggerProperties) {
+    public Docket api(CommonSwaggerProperties customCommonSwaggerProperties) {
         // base-path处理
-        if (customSwaggerProperties.getBasePath().isEmpty()) {
-            customSwaggerProperties.getBasePath().add(BASE_PATH);
+        if (customCommonSwaggerProperties.getBasePath().isEmpty()) {
+            customCommonSwaggerProperties.getBasePath().add(BASE_PATH);
         }
         // noinspection unchecked
         List<Predicate<String>> basePath = new ArrayList<>();
-        customSwaggerProperties.getBasePath().forEach(path -> basePath.add(PathSelectors.ant(path)));
+        customCommonSwaggerProperties.getBasePath().forEach(path -> basePath.add(PathSelectors.ant(path)));
 
         // exclude-path处理
-        if (customSwaggerProperties.getExcludePath().isEmpty()) {
-            customSwaggerProperties.getExcludePath().addAll(DEFAULT_EXCLUDE_PATH);
+        if (customCommonSwaggerProperties.getExcludePath().isEmpty()) {
+            customCommonSwaggerProperties.getExcludePath().addAll(DEFAULT_EXCLUDE_PATH);
         }
         List<Predicate<String>> excludePath = new ArrayList<>();
-        customSwaggerProperties.getExcludePath().forEach(path -> excludePath.add(PathSelectors.ant(path)));
+        customCommonSwaggerProperties.getExcludePath().forEach(path -> excludePath.add(PathSelectors.ant(path)));
 
 
         List<Parameter> pars = new ArrayList<>();
 
-        for (Header h : customSwaggerProperties.getHeaders()) {
+        for (Header h : customCommonSwaggerProperties.getHeaders()) {
             //添加header参数
             ParameterBuilder ticketPar = new ParameterBuilder();
             ticketPar.name(h.getHeaderName()).description(h.getDescription())
@@ -83,12 +82,12 @@ public class SwaggerAutoConfiguration {
 
         //noinspection Guava
         List<Predicate<? super RequestHandler>> components = new ArrayList<>();
-        for (String s : customSwaggerProperties.getBasePackage()) {
+        for (String s : customCommonSwaggerProperties.getBasePackage()) {
             components.add(RequestHandlerSelectors.basePackage(s));
         }
         return new Docket(DocumentationType.SWAGGER_2)
-                .host(customSwaggerProperties.getHost())
-                .apiInfo(apiInfo(customSwaggerProperties)).select()
+                .host(customCommonSwaggerProperties.getHost())
+                .apiInfo(apiInfo(customCommonSwaggerProperties)).select()
                 .apis(Predicates.or(components))
                 .paths(Predicates.and(Predicates.not(Predicates.or(excludePath)), Predicates.or(basePath)))
                 .build()
@@ -135,17 +134,17 @@ public class SwaggerAutoConfiguration {
         return securityReferences;
     }
 
-    private ApiInfo apiInfo(SwaggerProperties customSwaggerProperties) {
+    private ApiInfo apiInfo(CommonSwaggerProperties customCommonSwaggerProperties) {
         return new ApiInfoBuilder()
-                .title(customSwaggerProperties.getTitle())
-                .description(customSwaggerProperties.getDescription())
-                .license(customSwaggerProperties.getLicense())
-                .licenseUrl(customSwaggerProperties.getLicenseUrl())
-                .termsOfServiceUrl(customSwaggerProperties.getTermsOfServiceUrl())
-                .contact(new Contact(customSwaggerProperties.getContact().getName(),
-                        customSwaggerProperties.getContact().getUrl(),
-                        customSwaggerProperties.getContact().getEmail()))
-                .version(customSwaggerProperties.getVersion())
+                .title(customCommonSwaggerProperties.getTitle())
+                .description(customCommonSwaggerProperties.getDescription())
+                .license(customCommonSwaggerProperties.getLicense())
+                .licenseUrl(customCommonSwaggerProperties.getLicenseUrl())
+                .termsOfServiceUrl(customCommonSwaggerProperties.getTermsOfServiceUrl())
+                .contact(new Contact(customCommonSwaggerProperties.getContact().getName(),
+                        customCommonSwaggerProperties.getContact().getUrl(),
+                        customCommonSwaggerProperties.getContact().getEmail()))
+                .version(customCommonSwaggerProperties.getVersion())
                 .build();
     }
 }

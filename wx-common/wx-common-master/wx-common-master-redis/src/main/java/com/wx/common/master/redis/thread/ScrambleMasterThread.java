@@ -8,7 +8,7 @@ import com.wx.common.master.redis.main.NodeManager;
 import com.wx.common.master.redis.model.NodeInfo;
 
 /**
- * @Author wuweixin
+ * @Author wx
  * @Date 2023/3/13 14:54
  * @Version 1.0
  */

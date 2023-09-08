@@ -1,7 +1,7 @@
 package com.wx.common.master.redis.listener;
 
 /**
- * @Author wuweixin
+ * @Author wx
  * @Date 2023/3/15 10:27
  * @Version 1.0
  */

@@ -16,12 +16,11 @@
         <module>wx-common-lock</module>
         <module>wx-common-redis</module>
         <module>wx-common-core</module>
-        <module>wx-common-lock/wx-common-lock-redis</module>
         <module>wx-common-swagger</module>
         <module>wx-common-master</module>
         <module>wx-common-web</module>
-        <module>wx-security</module>
-        <module>wx-mybatis-plus</module>
+        <module>wx-common-security</module>
+        <module>wx-common-mybatis-plus</module>
     </modules>
 
 

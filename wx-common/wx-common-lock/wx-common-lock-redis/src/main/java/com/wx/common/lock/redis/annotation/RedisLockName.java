@@ -8,7 +8,7 @@ import java.lang.annotation.*;
  * <p>
  * 例子1
  * 寻找Order里面名为userId的参数，只支持String,Integer,Long
- * @author wuweixin
+ * @author wx
  * @RedisLock(xxxxx)
  * public void deal(@RedisLockName(name = "userId") Order order){
  * <p>

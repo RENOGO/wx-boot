@@ -6,7 +6,7 @@ import com.wx.common.master.redis.constants.NodeConstants;
 import com.wx.common.master.redis.main.NodeManager;
 
 /**
- * @Author wuweixin
+ * @Author wx
  * @Date 2023/3/15 14:00
  * @Version 1.0
  */

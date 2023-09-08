@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.wx.common.log.config.CommonLogConfiguration,\
+  com.wx.common.log.aspect.LogAspect
+
+  

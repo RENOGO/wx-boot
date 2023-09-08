@@ -1,9 +1,0 @@
-server:
-  port: 8080
-  servlet:
-    context-path: "/demo1"
-
-wx-boot:
-   web:
-     base-controller-path: com.wx.demo1.controller
-     show-sys-error: true

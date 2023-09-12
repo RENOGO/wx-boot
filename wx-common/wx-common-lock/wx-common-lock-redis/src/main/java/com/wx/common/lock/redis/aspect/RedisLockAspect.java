@@ -102,8 +102,9 @@ public class RedisLockAspect {
         }
         LOGGER.info("threadId={}: redisson尝试获取锁，lockSuccess={}，method={},redisson_key={}", Thread.currentThread().getId(), lockSuccess, joinPoint.getTarget().getClass().getName() + "$" + methodSignature.getMethod().getName(), lockName);
         //抢不到锁就退出
+        //todo 开一个扩展点自定义退出逻辑
         if (!lockSuccess) {
-            return null;
+            throw new RuntimeException("访问人数过多，请稍后重试");
         }
         Object result = null;
         try {

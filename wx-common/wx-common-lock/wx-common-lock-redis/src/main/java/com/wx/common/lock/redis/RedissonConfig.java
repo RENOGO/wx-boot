@@ -12,6 +12,7 @@ import java.io.IOException;
 /**
  * @author wx
  */
+@Deprecated
 //@Configuration
 //@ConditionalOnProperty(name = ".yml-config")
 public class RedissonConfig {

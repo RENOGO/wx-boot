@@ -1,16 +1,18 @@
-package com.wx.common.master.redis.config;
+package com.wx.common.master.sr.config;
 
-import com.wx.common.utils.IpUtil;
-import org.springframework.util.StringUtils;
+import com.wx.common.constants.PropertiesPre;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.Map;
 
 /**
  * @Author wx
- * @Date 2023/3/13 14:19
+ * @Date 2023/9/12 14:20
  * @Version 1.0
  */
-public class NodeConfig {
+@ConfigurationProperties(prefix = PropertiesPre.MASTER_REDIS)
+public class MasterRedisProperties {
+
 
     /**
      * 写入当前节点的唯一标识，默认是ip:port
@@ -37,18 +39,7 @@ public class NodeConfig {
      */
     private Map<String, Object> extra;
 
-    public boolean isSendHeartBeat() {
-        return sendHeartBeat;
-    }
-
-    public void setSendHeartBeat(boolean sendHeartBeat) {
-        this.sendHeartBeat = sendHeartBeat;
-    }
-
     public String getUnique() {
-        if (!StringUtils.hasText(unique)) {
-            unique = getHost() + ":" + getPort();
-        }
         return unique;
     }
 
@@ -57,9 +48,6 @@ public class NodeConfig {
     }
 
     public String getHost() {
-        if (!StringUtils.hasText(host)) {
-            host = IpUtil.getHost();
-        }
         return host;
     }
 
@@ -73,6 +61,14 @@ public class NodeConfig {
 
     public void setPort(Integer port) {
         this.port = port;
+    }
+
+    public boolean isSendHeartBeat() {
+        return sendHeartBeat;
+    }
+
+    public void setSendHeartBeat(boolean sendHeartBeat) {
+        this.sendHeartBeat = sendHeartBeat;
     }
 
     public Map<String, Object> getExtra() {

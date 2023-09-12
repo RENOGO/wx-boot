@@ -9,6 +9,7 @@ import com.wx.common.master.redis.model.NodeInfo;
 import com.wx.common.master.redis.thread.AliveThread;
 import com.wx.common.master.redis.thread.ScrambleMasterThread;
 import com.wx.common.redis.util.RedisUtil;
+import com.wx.common.utils.IpUtil;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -43,21 +44,30 @@ public class NodeManager {
     }
 
 
-    public void init(NodeConfig config,
-                     MasterChangeListener masterChangeListener) {
+    public NodeManager init(NodeConfig config,
+                            MasterChangeListener masterChangeListener) {
         synchronized (LOCK) {
             if (this.init) {
-                return;
+                return this;
             }
             if (config.getPort() == null) {
                 throw new RuntimeException("缺少port");
             }
-            this.address = config.getHost() + ":" + config.getPort();
+            if (config.getHost().startsWith("127")) {
+                String ip = IpUtil.getHost();
+                //拿到127开头的ip是没有意义的
+                if (ip.startsWith("127")) {
+                    throw new RuntimeException("没有识别到当前节点的ip - " + ip);
+                }
+                config.setHost(ip);
+                config.setUnique(ip + ":" + config.getPort());
+            }
             this.nodeConfig = config;
+            this.address = config.getHost() + ":" + config.getPort();
             this.init = true;
             this.unique = config.getUnique();
             if (StringUtils.isEmpty(this.unique)) {
-                throw new RuntimeException("缺少位唯一示");
+                throw new RuntimeException("缺少位唯一标识");
             }
             this.nodeInfo = new NodeInfo();
             nodeInfo.setUnique(unique);
@@ -68,6 +78,7 @@ public class NodeManager {
                 new AliveThread().start();
             }
         }
+        return this;
     }
 
 
@@ -160,6 +171,7 @@ public class NodeManager {
         //没有master就开始抢
         if (master == null) {
             //尝试抢主节点，拿不到就直接返回
+            //todo 这里的逻辑改用lua实现，可以不需要引入分布式锁
             boolean success = RedissonLockUtil.tryLock(NodeConstants.LOCK_NAME, TimeUnit.SECONDS, 0);
             if (!success) {
                 return null;

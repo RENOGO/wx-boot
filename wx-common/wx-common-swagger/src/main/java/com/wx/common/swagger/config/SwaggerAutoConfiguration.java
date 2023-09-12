@@ -22,6 +22,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -45,46 +47,52 @@ public class SwaggerAutoConfiguration {
 
     @Bean
     public Docket api(CommonSwaggerProperties customCommonSwaggerProperties) {
+        List<String> basePathPro = customCommonSwaggerProperties.getBasePath();
+
         // base-path处理
-        if (customCommonSwaggerProperties.getBasePath().isEmpty()) {
-            customCommonSwaggerProperties.getBasePath().add(BASE_PATH);
+        if (basePathPro.isEmpty()) {
+            basePathPro.add(BASE_PATH);
         }
         // noinspection unchecked
-        List<Predicate<String>> basePath = new ArrayList<>();
-        customCommonSwaggerProperties.getBasePath().forEach(path -> basePath.add(PathSelectors.ant(path)));
+        List<Predicate<String>> basePath = basePathPro.stream().map(new Function<String, Predicate<String>>() {
+            @Override
+            public Predicate<String> apply(String s) {
+                return PathSelectors.ant(s);
+            }
+        }).collect(Collectors.toList());
 
         // exclude-path处理
-        if (customCommonSwaggerProperties.getExcludePath().isEmpty()) {
-            customCommonSwaggerProperties.getExcludePath().addAll(DEFAULT_EXCLUDE_PATH);
+        List<String> excludePathPro = customCommonSwaggerProperties.getExcludePath();
+        if (excludePathPro.isEmpty()) {
+            excludePathPro.addAll(DEFAULT_EXCLUDE_PATH);
         }
-        List<Predicate<String>> excludePath = new ArrayList<>();
-        customCommonSwaggerProperties.getExcludePath().forEach(path -> excludePath.add(PathSelectors.ant(path)));
+        List<Predicate<String>> excludePath = excludePathPro.stream().map(new Function<String, Predicate<String>>() {
+            @Override
+            public Predicate<String> apply(String s) {
+                return PathSelectors.ant(s);
+            }
+        }).collect(Collectors.toList());
 
-
-        List<Parameter> pars = new ArrayList<>();
-
-        for (Header h : customCommonSwaggerProperties.getHeaders()) {
-            //添加header参数
-            ParameterBuilder ticketPar = new ParameterBuilder();
-            ticketPar.name(h.getHeaderName()).description(h.getDescription())
-                    .modelRef(new ModelRef(h.getType())).parameterType("header")
-                    //header中的ticket参数非必填，传空也可以
-                    .required(false).build();
-            //根据每个方法名也知道当前方法在设置什么参数
-            pars.add(ticketPar.build());
-        }
-//添加header参数
-//        ParameterBuilder ticketPar = new ParameterBuilder();
-//        ticketPar.name("token").description("用户的token")
-//                .modelRef(new ModelRef("string")).parameterType("header")
-//                .required(false).build(); //header中的ticket参数非必填，传空也可以
-//        pars.add(ticketPar.build());    //根据每个方法名也知道当前方法在设置什么参数
+        List<Parameter> pars = customCommonSwaggerProperties.getHeaders().stream().map(new Function<Header, Parameter>() {
+            @Override
+            public Parameter apply(Header header) {
+                //添加header参数
+                ParameterBuilder ticketPar = new ParameterBuilder();
+                ticketPar.name(header.getHeaderName()).description(header.getDescription())
+                        .modelRef(new ModelRef(header.getType())).parameterType("header")
+                        //header中的ticket参数非必填，传空也可以
+                        .required(false).build();
+                return ticketPar.build();
+            }
+        }).collect(Collectors.toList());
 
         //noinspection Guava
-        List<Predicate<? super RequestHandler>> components = new ArrayList<>();
-        for (String s : customCommonSwaggerProperties.getBasePackage()) {
-            components.add(RequestHandlerSelectors.basePackage(s));
-        }
+        List<Predicate<? super RequestHandler>> components = customCommonSwaggerProperties
+                .getBasePackage()
+                .stream()
+                .map((Function<String, Predicate<? super RequestHandler>>) s -> RequestHandlerSelectors.basePackage(s))
+                .collect(Collectors.toList());
+
         return new Docket(DocumentationType.SWAGGER_2)
                 .host(customCommonSwaggerProperties.getHost())
                 .apiInfo(apiInfo(customCommonSwaggerProperties)).select()

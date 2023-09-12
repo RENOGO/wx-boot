@@ -1,0 +1,18 @@
+version: '2'
+
+services:
+    redis:
+        image: registry.cn-hangzhou.aliyuncs.com/kennylee/redis
+        container_name: "redis-server6379"
+        ports:
+            - "6379:6379"
+        volumes:
+            - ./data:/data
+            - ./conf/redis.conf:/usr/local/etc/redis/redis.conf
+        restart: always
+        command: [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
+        logging:
+            driver: 'json-file'
+            options:
+                max-size: '30m'
+                max-file: '1'

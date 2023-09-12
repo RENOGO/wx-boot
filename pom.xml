@@ -13,8 +13,8 @@
         <module>wx-gateway</module>
         <module>wx-services</module>
         <module>wx-common/wx-common-master/wx-common-master-redis</module>
-        <module>wx-demo</module>
         <module>wx-common/wx-common-log</module>
+        <module>wx-common/wx-common-master/wx-common-master-starter-redis</module>
     </modules>
 
 
@@ -32,6 +32,7 @@
         <lombok.version>1.18.12</lombok.version>
         <mybatis-plus-boot-starter.version>3.4.2</mybatis-plus-boot-starter.version>
         <mybatis-plus-generator.version>3.4.1</mybatis-plus-generator.version>
+        <lombok.version>1.18.12</lombok.version>
     </properties>
 
     <dependencyManagement>
@@ -61,6 +62,12 @@
                 <artifactId>springfox-swagger-ui</artifactId>
                 <version>${springfox-swagger-ui.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>30.0-jre</version>
+            </dependency>
 <!--            -->
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
@@ -82,6 +89,13 @@
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <optional>true</optional>
+            </dependency>
 <!--            -->
             <dependency>
                 <groupId>com.wx.boot</groupId>
@@ -91,6 +105,12 @@
             <dependency>
                 <groupId>com.wx.boot</groupId>
                 <artifactId>wx-common-web</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wx.boot</groupId>
+                <artifactId>wx-common-master-redis</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

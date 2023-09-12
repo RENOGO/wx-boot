@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author wuweixin
+ * @author wx
  */
 @Aspect
 @ConditionalOnProperty(name = PropertiesPre.LOG + ".enable", havingValue = "true", matchIfMissing = true)

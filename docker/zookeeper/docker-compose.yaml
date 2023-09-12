@@ -1,0 +1,15 @@
+version: '3.7'
+services:
+  zookeeper:
+    image: zookeeper
+    volumes:
+       - ./data/zookeeper:/data
+    container_name: zookeeper
+    mem_limit: 1024M
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - 2181:2181
+      - 2182:8080
+    restart: always

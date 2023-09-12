@@ -1,4 +1,4 @@
-package com.wx.common.lock.redis;
+package com.wx.common.lock.redis.config;
 
 import org.springframework.context.annotation.ComponentScan;
 

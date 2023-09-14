@@ -495,6 +495,7 @@ wx-boot提供了快捷的延时双删功能给开发者使用
 4、A更新数据库
 存在问题：A先删缓存，B的查询了旧数据并缓存了一个旧的数据，A更新了数据库但没有删缓存，出现数据不一致
 
+重点是下面这个
 五、先删缓存，再更新数据库，延时一定时间，再删缓存（延时双删）
 1、A删缓存
 2、B查数据库获得旧值
@@ -505,7 +506,19 @@ wx-boot提供了快捷的延时双删功能给开发者使用
 存在问题：会有短暂时间出现数据不一致的情况（也就是步骤5的等待时间），但相对于上述的方案，延时双删可以最大程度的满足数据一致性的需求
 ```
 
+目前比较流行的解决方案有两个：
+
+1、延时双删，优点是成本最低并且效果也很好，适合大部分公司使用，缺点是会有代码入侵（本模块功能就是为了减少重复删除逻辑的编写，降低入侵而存在的）。
+
+2、订阅binlog，将更新操作丢入消息队列，由队列另一端的消费者去删缓存，优点是无入侵，缺点很明显，搭建成本和运维成本高，需要引入额外的组件来实现。
+
+**缓存删除失败了怎么办？**
+
+如果删失败了，丢入一个新的消息队列再次删除，多次删除失败则告警，进行人工处理。
+
 **如何使用？**
+
+该模块能够在你执行数据库修改操作的前后帮你进行两次删除，实现数据一致性
 
 ```java
 @Service
@@ -521,9 +534,10 @@ public class RedisDelayService {
      * key是字符串
      * @RedisDelayDel注解声明开启延时双删
      * @RedisDelayDelKey注解声明哪个字符串参数是key
+     * delay = 300是你的预估的另一个查询这个key的业务需要花费的时间，单位毫秒
      * @param name
      */
-    @RedisDelayDel(keyPre = PRE)
+    @RedisDelayDel(keyPre = PRE, delay = 300)
     public void update(@RedisDelayDelKey String name) {
         userMapper.update(name);
     }
@@ -534,7 +548,7 @@ public class RedisDelayService {
      * 如果key是参数中的实体，则配合@RedisDelayDelKey(key = "name")注解，将实体内成员变量的名称写入
      * @param user
      */
-    @RedisDelayDel(keyPre = PRE)
+    @RedisDelayDel(keyPre = PRE, delay = 300)
     public void update(@RedisDelayDelKey(key = "name") User user) {
         userMapper.update(user);
     }

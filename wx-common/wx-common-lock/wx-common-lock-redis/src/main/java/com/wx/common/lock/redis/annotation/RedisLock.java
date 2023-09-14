@@ -33,7 +33,7 @@ public @interface RedisLock {
     String lockName() default "";
 
     /**
-     * 锁名前后缀
+     * 锁名后缀
      *
      * @return
      */

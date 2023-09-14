@@ -2,7 +2,11 @@ package com.wx.common.redis.pool;
 
 import com.wx.common.core.thread.AppThreadPool;
 import com.wx.common.redis.util.RedisUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
 
 /**
  * @Author wx
@@ -13,6 +17,7 @@ import org.springframework.stereotype.Component;
 public class DelayPool extends AppThreadPool {
 
     public static final String REDIS_DELAY_POOL = "redis-delay-thread-pool";
+    private static final Logger LOGGER = LoggerFactory.getLogger(DelayPool.class);
 
     public DelayPool() {
         super(REDIS_DELAY_POOL);
@@ -28,6 +33,7 @@ public class DelayPool extends AppThreadPool {
 
                 }
                 RedisUtil.del(key);
+                LOGGER.info("延时双删2 {}", Arrays.toString(key));
             }
         });
     }

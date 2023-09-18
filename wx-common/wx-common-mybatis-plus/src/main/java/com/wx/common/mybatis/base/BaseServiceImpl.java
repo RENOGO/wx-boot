@@ -21,8 +21,8 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T> extends Servic
      * @return
      */
     @Override
-    public PageDataEntity<T> queryPageData(Page<T> page, T condition) {
-        return PageDataEntity.create(page(page, new QueryWrapper<>(condition)));
+    public Page<T> queryPageData(Page<T> page, T condition) {
+        return page(page, new QueryWrapper<>(condition));
     }
 
     /**
@@ -32,8 +32,8 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T> extends Servic
      * @return
      */
     @Override
-    public PageDataEntity<T> queryPageData(Page<T> page) {
-        return PageDataEntity.create(page(page));
+    public Page<T> queryPageData(Page<T> page) {
+        return page(page);
     }
 
 
@@ -45,7 +45,7 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T> extends Servic
      * @return
      */
     @Override
-    public PageDataEntity<T> queryPageData(Integer current, Integer size) {
+    public Page<T> queryPageData(Integer current, Integer size) {
         Page<T> page = new Page<>(current, size);
         return queryPageData(page);
     }
@@ -58,19 +58,19 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T> extends Servic
      * @return
      */
     @Override
-    public PageDataEntity<T> queryPageData(Integer current, Integer size, T condition) {
+    public Page<T> queryPageData(Integer current, Integer size, T condition) {
         Page<T> page = new Page<>(current, size);
         return queryPageData(page, condition);
     }
 
     @Override
-    public PageDataEntity<T> queryPageDataByWrapper(Page<T> page, Wrapper<T> queryWrapper) {
-        return PageDataEntity.create(page(page, queryWrapper));
+    public Page<T> queryPageDataByWrapper(Page<T> page, Wrapper<T> queryWrapper) {
+        return page(page, queryWrapper);
     }
 
     @Override
-    public PageDataEntity<T> queryPageDataByWrapper(Integer current, Integer size, Wrapper<T> queryWrapper) {
+    public Page<T> queryPageDataByWrapper(Integer current, Integer size, Wrapper<T> queryWrapper) {
         Page<T> page = new Page<>(current, size);
-        return PageDataEntity.create(page(page, queryWrapper));
+        return page(page, queryWrapper);
     }
 }

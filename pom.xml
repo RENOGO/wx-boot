@@ -33,6 +33,7 @@
         <mybatis-plus-boot-starter.version>3.4.2</mybatis-plus-boot-starter.version>
         <mybatis-plus-generator.version>3.4.1</mybatis-plus-generator.version>
         <lombok.version>1.18.12</lombok.version>
+        <dubbo.version>3.1.0</dubbo.version>
     </properties>
 
     <dependencyManagement>
@@ -96,6 +97,21 @@
                 <version>${lombok.version}</version>
                 <optional>true</optional>
             </dependency>
+
+            <!-- dubbo-spring-boot-starter -->
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-spring-boot-starter</artifactId>
+                <version>${dubbo.version}</version>
+            </dependency>
+
+            <!-- dubbo-registry-zookeeper -->
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-registry-zookeeper</artifactId>
+                <version>${dubbo.version}</version>
+            </dependency>
+
 <!--            -->
             <dependency>
                 <groupId>com.wx.boot</groupId>

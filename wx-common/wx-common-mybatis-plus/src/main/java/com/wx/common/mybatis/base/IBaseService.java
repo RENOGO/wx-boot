@@ -9,18 +9,18 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IBaseService<T> extends IService<T> {
 
-    PageDataEntity<T> queryPageData(Page<T> page, T condition);
+    Page<T> queryPageData(Page<T> page, T condition);
 
-    PageDataEntity<T> queryPageData(Page<T> page);
+    Page<T> queryPageData(Page<T> page);
 
-    PageDataEntity<T> queryPageData(Integer current, Integer size);
+    Page<T> queryPageData(Integer current, Integer size);
 
-    PageDataEntity<T> queryPageData(Integer current, Integer size, T condition);
+    Page<T> queryPageData(Integer current, Integer size, T condition);
 
 
-    PageDataEntity<T> queryPageDataByWrapper(Page<T> page, Wrapper<T> queryWrapper);
+    Page<T> queryPageDataByWrapper(Page<T> page, Wrapper<T> queryWrapper);
 
-    PageDataEntity<T> queryPageDataByWrapper(Integer current, Integer size, Wrapper<T> queryWrapper);
+    Page<T> queryPageDataByWrapper(Integer current, Integer size, Wrapper<T> queryWrapper);
 
 
 

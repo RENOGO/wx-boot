@@ -50,9 +50,11 @@ wx-boot不仅仅是一个脚手架工程，也是一个完整的微服务构建�
     └── wx-usercenter #用户中心，待实现
 ```
 
-# 四、功能说明
+# 四、功能特性
 
-​	这一节我将介绍wx-boot协助开发者快速开发的一系列脚手架功能，作者认为一个好用的工具，应该还有完备的使用文档，由于该项目刚开始搭建，所以需要时间来完善文档和功能；本节介绍的功能集中在common包下，目前作者优先提供这部分功能，后续其他预期功能任在开发建设中。
+​	这一节我将介绍wx-boot协助开发者快速开发的一系列脚手架功能，帮助开发者快速上手使用，提高开发效率。
+
+​	作者认为一个好用的工具，应该还有完备的使用文档，由于该项目刚开始搭建，所以需要时间来完善文档和功能；本节介绍的功能集中在common包下，目前作者优先提供这部分功能，后续其他预期功能任在开发建设中。
 
 ​	已经补充响应体、异常处理、swagger快速配置使用、主从选举和心跳管理、分布式锁、延时双删等说明，仍有一部分内容需要完善和文档补充。
 
@@ -186,55 +188,7 @@ test3接口
 }
 ```
 
-## swagger配置
 
-application配置，完成如下内容配置，即可使用swagger
-
-```yaml
-spring:
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
-
-wx-boot:
-   swagger:
-     //配置是否开启，生产环境下可选择关闭
-     enabled: true
-     basePackage: com.wx.demo1.controller
-     title: 文档标题
-     description: 文档描述
-     version: 1.0.0
-     headers:
-       - headerName: 自定义请求头1
-         description: 自定义请求头描述1
-         type: String
-       - headerName: 自定义请求头2
-         description: 自定义请求头描述2
-         type: String
-```
-
-controller配置，这个和平常配置swagger的步骤是一样的，没有任何修改
-
-```java
-@RequestMapping("/commonRes")
-@RestController
-@Api(tags = "测试控制器")
-public class ResController {
-
-
-    @GetMapping("/test1")
-    @ApiOperation("测试响应接口1")
-    public Map<String, Object> test1() {
-        Map<String, Object> res = new HashMap<>();
-        res.put("key", "value");
-        return res;
-    }
-
-```
-
-访问`项目路径/swagger-ui.html`即可开始使用swagger了
-
-![iShot_2023-09-12_12.38.56](assets/iShot_2023-09-12_12.38.56.png)
 
 ## 主从选举和心跳管理
 
@@ -648,6 +602,179 @@ public @interface RedisDelayDel {
 }
 
 ```
+
+## 手动事务
+
+**Spring提供了@Transactional注解，为什么还要手动开启事务呢？**
+
+1、有时候方法内其实只需要针对某一两句sql进行事务操作，完了就提交事务，但由于@Transactional作用于一整个方法，对整体数据锁住的时间较长，影响到其他事务的使用。举个例子
+
+```
+#数据库有数据code(1,10)
+
+#事务1
+BEGIN;
+#间隙锁锁定1~10范围
+INSERT INTO A(code) VALUES(5);
+#其他查询操作
+SELECT ...
+
+
+#事务2
+#等待
+INSERT INTO A(code) VALUES(3)
+```
+
+上述例子事务1其实完全可以在INSERT完了就提交事务，而由于@Transactional方法的原因导致得方法执行完了才能提交事务，影响到了事务2的插入。
+
+2、@Transactional方法内有异步操作：方法内插入了数据A，异步线程去查询数据A，此时由于事务提交和异步线程谁先执行时无法确定的，所以A数据是无法百分百查询到的。
+
+**如何使用？**
+
+```java
+  public void prepareTask(DownloadMapRequest request) {
+
+        //减少事务提交粒度，防止异步更新的时候事务没有被提交，导致异步更新失败
+    	  //该类的回调方法是同步的，true代表事务处理成功
+        boolean transaction = TransactionMybatis.getSTransaction(new TransactionInterface() {
+            @Override
+            public void transaction() {
+                //处理你的事务
+            }
+
+            @Override
+            public void exception(Exception e) {
+              //事务执行过程出现了异常，这里建议可以直接抛出一个异常给外部捕获
+              
+            }
+        });
+  			
+    }
+```
+
+## 统一实体
+
+**统一实体是什么？为什么要有统一的实体？**
+
+我们在设计数据库的字段的时候，会有设计通用字段，如主键id、创建时间、创建人等，统一实体指的就是这些字段的基础实体。
+
+脚手架约定了统一的实体格式，基类实体内容如下:
+
+```java
+public abstract class BaseDataEntity<T extends Model<?>> extends Model<T> implements Serializable {
+
+    @TableId("id")
+    @ApiModelProperty(value = "主键Id")
+    private String id;
+    @TableField(fill = FieldFill.INSERT)
+    @ApiModelProperty(value = "创建时间")
+    private Date createTime;
+    @TableField(fill = FieldFill.UPDATE)
+    @ApiModelProperty(value = "修改时间")
+    private Date updateTime;
+    @TableField(fill = FieldFill.UPDATE)
+    @ApiModelProperty(value = "修改者的id")
+    private String updateBy;
+    @TableField(fill = FieldFill.INSERT)
+    @ApiModelProperty(value = "创建者的id")
+    private String createBy;
+    @ApiModelProperty(value = "备注")
+    private String remark;
+    @JsonIgnore
+    @ApiModelProperty(value = "是否被删除，0没删除，1被删除")
+    private DeleteFlagEnum deleteFlag;
+    @JsonIgnore
+    @ApiModelProperty(value = "扩展字段")
+    private String extra;
+
+...
+```
+
+这意味着使用者在设计数据库的时候，需要添加与之匹配的数据库字段。
+
+**如何使用？**
+
+数据库实体类直接继承基类实体
+
+```java
+public class User extends BaseDataEntity<User> {
+    
+    private String name;
+    
+    private Integer sex;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getSex() {
+        return sex;
+    }
+
+    public void setSex(Integer sex) {
+        this.sex = sex;
+    }
+}
+
+```
+
+脚手架采用的是mybatis-plus，所以在使用上，可以非常便捷。
+
+Todo
+
+## swagger配置
+
+application配置，完成如下内容配置，即可使用swagger
+
+```yaml
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+wx-boot:
+   swagger:
+     //配置是否开启，生产环境下可选择关闭
+     enabled: true
+     basePackage: com.wx.demo1.controller
+     title: 文档标题
+     description: 文档描述
+     version: 1.0.0
+     headers:
+       - headerName: 自定义请求头1
+         description: 自定义请求头描述1
+         type: String
+       - headerName: 自定义请求头2
+         description: 自定义请求头描述2
+         type: String
+```
+
+controller配置，这个和平常配置swagger的步骤是一样的，没有任何修改
+
+```java
+@RequestMapping("/commonRes")
+@RestController
+@Api(tags = "测试控制器")
+public class ResController {
+
+
+    @GetMapping("/test1")
+    @ApiOperation("测试响应接口1")
+    public Map<String, Object> test1() {
+        Map<String, Object> res = new HashMap<>();
+        res.put("key", "value");
+        return res;
+    }
+
+```
+
+访问`项目路径/swagger-ui.html`即可开始使用swagger了
+
+![iShot_2023-09-12_12.38.56](assets/iShot_2023-09-12_12.38.56.png)
 
 
 

@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.wx.boot</groupId>
-        <artifactId>wx-common</artifactId>
+        <artifactId>wx-module-usercenter</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>wx-common-log</artifactId>
+    <artifactId>wx-module-usercenter-api</artifactId>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -19,24 +19,15 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>com.wx.boot</groupId>
-            <artifactId>wx-common-core</artifactId>
+            <artifactId>wx-common-swagger</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-core</artifactId>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
+
 
     </dependencies>
 

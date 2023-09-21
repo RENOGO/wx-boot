@@ -8,36 +8,16 @@
         <artifactId>wx-common</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-
-    <artifactId>wx-common-log</artifactId>
+    <packaging>pom</packaging>
+    <artifactId>wx-common-rpc</artifactId>
+    <modules>
+        <module>wx-common-rpc-dubbo</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.wx.boot</groupId>
-            <artifactId>wx-common-core</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-core</artifactId>
-        </dependency>
-
-    </dependencies>
 
 </project>

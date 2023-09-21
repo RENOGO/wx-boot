@@ -11,10 +11,8 @@
     <modules>
         <module>wx-common</module>
         <module>wx-gateway</module>
-        <module>wx-services</module>
-        <module>wx-common/wx-common-master/wx-common-master-redis</module>
-        <module>wx-common/wx-common-log</module>
-        <module>wx-common/wx-common-master/wx-common-master-starter-redis</module>
+        <module>wx-module-usercenter</module>
+        <module>wx-module-auth</module>
     </modules>
 
 
@@ -30,15 +28,17 @@
         <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
         <springfox-swagger-ui.version>2.9.2</springfox-swagger-ui.version>
         <lombok.version>1.18.12</lombok.version>
-        <mybatis-plus-boot-starter.version>3.4.2</mybatis-plus-boot-starter.version>
-        <mybatis-plus-generator.version>3.4.1</mybatis-plus-generator.version>
+        <mybatis-plus-boot-starter.version>3.5.3.1</mybatis-plus-boot-starter.version>
+        <mybatis-plus-generator.version>3.5.3.1</mybatis-plus-generator.version>
         <lombok.version>1.18.12</lombok.version>
         <dubbo.version>3.1.0</dubbo.version>
+        <mysql.version>8.0.28</mysql.version>
+        <druid.version>1.2.16</druid.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-<!--            mybatis plus-->
+            <!--            mybatis plus-->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
@@ -49,6 +49,18 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-generator</artifactId>
                 <version>${mybatis-plus-generator.version}</version>
+            </dependency>
+<!--            -->
+
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${druid.version}</version>
             </dependency>
 
             <!--            swagger-->
@@ -69,7 +81,7 @@
                 <artifactId>guava</artifactId>
                 <version>30.0-jre</version>
             </dependency>
-<!--            -->
+            <!--            -->
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
@@ -112,7 +124,7 @@
                 <version>${dubbo.version}</version>
             </dependency>
 
-<!--            -->
+            <!--            -->
             <dependency>
                 <groupId>com.wx.boot</groupId>
                 <artifactId>wx-common-core</artifactId>
@@ -149,8 +161,22 @@
                 <artifactId>wx-common-log</artifactId>
                 <version>${project.version}</version>
             </dependency>
-<!--            -->
-
+            <dependency>
+                <groupId>com.wx.boot</groupId>
+                <artifactId>wx-common-mybatis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.wx.boot</groupId>
+                <artifactId>wx-common-rpc-dubbo</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <!--            -->
+            <dependency>
+                <groupId>com.wx.boot</groupId>
+                <artifactId>wx-module-usercenter-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

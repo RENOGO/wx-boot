@@ -20,7 +20,9 @@
         <module>wx-common-master</module>
         <module>wx-common-web</module>
         <module>wx-common-security</module>
-        <module>wx-common-mybatis-plus</module>
+        <module>wx-common-log</module>
+        <module>wx-common-mybatis</module>
+        <module>wx-common-rpc</module>
     </modules>
 
 

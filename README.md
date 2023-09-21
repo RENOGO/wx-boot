@@ -1,5 +1,9 @@
 # wx-boot
 
+目前优先提供了一系列脚手架功能给开发者使用，帮助开发者快速开发，该模块集中在`wx-common`下，其余服务在完善中，目前在进行用户中心模块、统一鉴权模块、网关模块的处理。
+
+关于服务的创建模板，可暂时参照`wx-module-usercente`模块进行。
+
 # 一、介绍
 
 wx-boot 是一个专为 Java 开发者设计的快速搭建微服务的脚手架，旨在帮助开发者快速构建高效、可靠的微服务架构，无论你是初学者还是经验丰富的开发者，跟着文档说明走，都能够快速上手即用！
@@ -30,24 +34,22 @@ wx-boot不仅仅是一个脚手架工程，也是一个完整的微服务构建�
 
 ```
 .
-├── wx-common #通用包
+├── wx-common #脚手架通用包
 │   ├── wx-common-core #核心工具包	
 │   ├── wx-common-lock #分布式锁
 │   │   └── wx-common-lock-redis #分布式锁,redisson实现
 │   ├── wx-common-master #主从节点选举
 │   │   └── wx-common-master-redis #redis实现主从选举
-│   │		└── wx-common-master-starter-redis #redis实现主从选举starter
+│   │		└── wx-common-master-redis-starter #redis实现主从选举starter
 │   ├── wx-common-redis #redis工具包
 │   ├── wx-common-swagger #swagger工具包
 │   ├── wx-common-web #web相关工具包
 │   ├── wx-common-log #log相关工具包
-│   ├── wx-common-mybatis-plus #mybatis-plus相关工具包
+│   ├── wx-common-mybatis #mybatis相关工具包
 │   └── wx-common-security #安全模块相关工具
 ├── wx-gateway  #网关，待实现
-├── wx-demo #演示工程
-└── wx-services #服务
-    ├── wx-auth #鉴权服务，待实现
-    └── wx-usercenter #用户中心，待实现
+├── wx-module-auth #鉴权中心
+├── wx-module-usercenter #用户中心
 ```
 
 # 四、功能特性
@@ -60,7 +62,24 @@ wx-boot不仅仅是一个脚手架工程，也是一个完整的微服务构建�
 
 ## 响应体
 
-统一的响应体处理，无需再拼接统一响应体
+你是否还在用如下方式返回controller响应
+
+```java
+@RequestMapping("/commonRes")
+@RestController
+public class ResController {
+
+
+    @GetMapping("/demo")
+    public Response<User> test1() {
+        return ResponseUtil.success(new User());
+    }
+ 
+
+}
+```
+
+统一的响应体处理，无需再封装响应
 
 ```java
 @RequestMapping("/commonRes")
@@ -99,18 +118,18 @@ public class ResController {
 {
   "code": 200,
   "message": "success",
-  //所有内容均统一封装在这里
+  #所有内容均统一封装在这里
   "data": {
     "key": "value"
   },
-  //这个字段下一节会介绍
+  #这个字段下一节会介绍
   "sysMessage": null
 }
 
 {
   "code": 200,
   "message": "success",
-  //所有内容均统一封装在这里
+  #所有内容均统一封装在这里
   "data": {
     "name": "jack",
     "sex": 1
@@ -121,7 +140,7 @@ public class ResController {
 {
   "code": 200,
   "message": "success",
-  //所有内容均统一封装在这里
+  #所有内容均统一封装在这里
   "data": "this is a string",
   "sysMessage": null
 }
@@ -134,9 +153,29 @@ wx-boot:
    web:
      #controller路径，多个用,号隔开
      base-controller-path: com.wx.demo1.controller
-     #开发测试环境下返回错误信息，下面的异常处理会说明这个配置的含义
+     #开发测试环境下返回RumtimeException错误信息，下面的异常处理会说明这个配置的含义
      show-sys-error: true
 ```
+
+如果某些接口响应体格式与当前业务不一样，这里也提供了注解，可忽略掉统一的响应封装
+
+```java
+@RequestMapping("/commonRes")
+@RestController
+public class ResController {
+
+		//IgnoreResponseBody注解可以忽略统一封装的响应体，让开发者对某些接口进行自定义响应返回
+  	@IgnoreResponseBody
+    @GetMapping("/demo")
+    public Response<User> test1() {
+        return ResponseUtil.success(new User());
+    }
+ 
+
+}
+```
+
+
 
 ## 异常处理
 
@@ -158,7 +197,7 @@ public class ResController {
 
     @GetMapping("/test3")
     public Map<String, Object> test3() {
-        //模拟异常代码
+        //模拟异常代码RumtimeException
         int exception = 1 / 0;
         return null;
     }
@@ -170,20 +209,20 @@ public class ResController {
 响应内容
 
 ```json
-test2接口
+#test2接口
 {
   "code": 4001,
   "message": "缺少参数",
   "data": null,
   "sysMessage": null
 }
-test3接口
+#test3接口
 {
   "code": 400,
   "message": "错误请求!",
   "data": null,
-  //这里由上一小节提到的show-sys-error字段配置实现的，在开发和测试环境中可配置开启该字段，以快速排查问题
-  //如果出现类似空指针的情况，可以快速的从这里找到问题
+  #这里由上一小节提到的show-sys-error字段配置实现的，在开发和测试环境中可配置开启该字段，以快速排查问题
+  #如果出现空指针之类的RumtimeException，可以快速的从这里找到问题
   "sysMessage": "ArithmeticException: / by zero"
 }
 ```
@@ -462,7 +501,7 @@ wx-boot提供了快捷的延时双删功能给开发者使用
 
 目前比较流行的解决方案有两个：
 
-1、延时双删，优点是成本最低并且效果也很好，适合大部分公司使用，缺点是会有代码入侵（本模块功能就是为了减少重复删除逻辑的编写，降低入侵而存在的）。
+1、延时双删，优点是成本最低并且效果也很好，适合大部分公司使用，缺点是会有代码入侵（本模块功能就是为了减少重复删除逻辑，降低入侵而存在的）。
 
 2、订阅binlog，将更新操作丢入消息队列，由队列另一端的消费者去删缓存，优点是无入侵，缺点很明显，搭建成本和运维成本高，需要引入额外的组件来实现。
 
@@ -607,34 +646,37 @@ public @interface RedisDelayDel {
 
 **Spring提供了@Transactional注解，为什么还要手动开启事务呢？**
 
-1、有时候方法内其实只需要针对某一两句sql进行事务操作，完了就提交事务，但由于@Transactional作用于一整个方法，对整体数据锁住的时间较长，影响到其他事务的使用。举个例子
+举两个例子
+
+1、有时候@Transactional注解的方法内其实只需要对一两句sql进行事务操作，但由于@Transactional作用于整个方法，对整体数据的加锁时间较长，影响到其他事务的使用。举个例子
 
 ```
-#数据库有数据code(1,10)
+#数据库表A有数据code(1,10)
+#这里不直接贴java代码了，用sql做模拟说明
 
-#事务1
+#方法1-事务1
 BEGIN;
-#间隙锁锁定1~10范围
+#往1~10直接插入数据5，间隙锁锁定1~10范围
 INSERT INTO A(code) VALUES(5);
 #其他查询操作
 SELECT ...
 
 
-#事务2
-#等待
+#方法2-事务2
+#往1~10之间插入3，由于间隙锁的存在，导致阻塞
 INSERT INTO A(code) VALUES(3)
 ```
 
 上述例子事务1其实完全可以在INSERT完了就提交事务，而由于@Transactional方法的原因导致得方法执行完了才能提交事务，影响到了事务2的插入。
 
-2、@Transactional方法内有异步操作：方法内插入了数据A，异步线程去查询数据A，此时由于事务提交和异步线程谁先执行时无法确定的，所以A数据是无法百分百查询到的。
+2、@Transactional方法内有异步操作：方法内插入了数据A，接着方法内又开启异步线程去查询数据A，此时由于事务提交和异步线程查询谁先执行是无法确定的，所以对于异步线程来说，数据A是无法百分百查询到的。
 
 **如何使用？**
 
 ```java
   public void prepareTask(DownloadMapRequest request) {
 
-        //减少事务提交粒度，防止异步更新的时候事务没有被提交，导致异步更新失败
+        //减少事务的影响范围+防止异步更新的时候事务没有被提交，导致异步更新失败
     	  //该类的回调方法是同步的，true代表事务处理成功
         boolean transaction = TransactionMybatis.getSTransaction(new TransactionInterface() {
             @Override
@@ -644,7 +686,7 @@ INSERT INTO A(code) VALUES(3)
 
             @Override
             public void exception(Exception e) {
-              //事务执行过程出现了异常，这里建议可以直接抛出一个异常给外部捕获
+              //事务执行过程出现了异常，这里建议可以直接抛出一个异常给外部统一异常处理捕获
               
             }
         });

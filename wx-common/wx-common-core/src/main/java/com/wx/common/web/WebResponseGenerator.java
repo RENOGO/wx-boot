@@ -5,18 +5,18 @@ public class WebResponseGenerator {
 
 	public static <T> WebResponse<T> genSuccessResult() {
 		return new WebResponse<T>()
-				.setCode(ResponseEnum.SUCCESS);
+				.setCode(BaseResponseEnum.SUCCESS);
 	}
 
 	public static <T> WebResponse<T> genSuccessResult(T data) {
 		return new WebResponse<T>()
-				.setCode(ResponseEnum.SUCCESS)
+				.setCode(BaseResponseEnum.SUCCESS)
 				.setData(data);
 	}
 
 	public static <T> WebResponse<T> genFailResult(String message) {
 		return new WebResponse<T>()
-				.setCode(ResponseEnum.BAD_REQUEST)
+				.setCode(BaseResponseEnum.BAD_REQUEST)
 				.setMessage(message);
 	}
 
@@ -34,7 +34,7 @@ public class WebResponseGenerator {
 	 */
 	public static <T> WebResponse<T> genSysFailResult(String sysMessage) {
 		return new WebResponse<T>()
-				.setCode(ResponseEnum.BAD_REQUEST)
+				.setCode(BaseResponseEnum.BAD_REQUEST)
 				.setSysMessage(sysMessage);
 	}
 }

@@ -13,6 +13,9 @@
         <module>wx-gateway</module>
         <module>wx-module-usercenter</module>
         <module>wx-module-auth</module>
+        <module>wx-common-module-services</module>
+        <module>wx-module-system</module>
+        <module>wx-common/wx-common-auth-starter</module>
     </modules>
 
 
@@ -24,7 +27,7 @@
 
     <properties>
         <jackson.version>2.14.0</jackson.version>
-        <hutool.version>5.5.4</hutool.version>
+        <hutool.version>5.8.21</hutool.version>
         <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
         <springfox-swagger-ui.version>2.9.2</springfox-swagger-ui.version>
         <lombok.version>1.18.12</lombok.version>
@@ -171,10 +174,35 @@
                 <artifactId>wx-common-rpc-dubbo</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.wx.boot</groupId>
+                <artifactId>wx-common-validation</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <!--            -->
             <dependency>
                 <groupId>com.wx.boot</groupId>
                 <artifactId>wx-module-usercenter-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.wx.boot</groupId>
+                <artifactId>wx-module-auth-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.wx.boot</groupId>
+                <artifactId>wx-common-module-message-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.wx.boot</groupId>
+                <artifactId>wx-common-security</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.wx.boot</groupId>
+                <artifactId>wx-common-auth-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

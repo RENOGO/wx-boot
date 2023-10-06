@@ -48,11 +48,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>6.0.9.Final</version>
+            <groupId>com.wx.boot</groupId>
+            <artifactId>wx-common-validation</artifactId>
         </dependency>
-
 
     </dependencies>
 

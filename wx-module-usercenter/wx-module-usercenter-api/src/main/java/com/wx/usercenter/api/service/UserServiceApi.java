@@ -1,6 +1,7 @@
 package com.wx.usercenter.api.service;
 
 import com.wx.usercenter.api.dto.UserDTO;
+import com.wx.usercenter.api.req.CreateUserReq;
 
 /**
  * @Author wuweixin
@@ -15,5 +16,7 @@ public interface UserServiceApi {
      * @return
      */
     UserDTO getUserByUsername(String username);
+
+    String createUser(CreateUserReq req);
 
 }

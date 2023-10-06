@@ -28,6 +28,10 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.wx.boot</groupId>
+            <artifactId>wx-common-validation</artifactId>
+        </dependency>
 
     </dependencies>
 

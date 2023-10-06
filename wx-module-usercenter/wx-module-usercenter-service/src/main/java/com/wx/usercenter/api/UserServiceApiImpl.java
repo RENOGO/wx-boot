@@ -1,6 +1,7 @@
 package com.wx.usercenter.api;
 
 import com.wx.usercenter.api.dto.UserDTO;
+import com.wx.usercenter.api.req.CreateUserReq;
 import com.wx.usercenter.api.service.UserServiceApi;
 import com.wx.usercenter.service.user.UserService;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -22,7 +23,11 @@ public class UserServiceApiImpl implements UserServiceApi {
     @Override
     public UserDTO getUserByUsername(String username) {
         UserDTO userDTO = new UserDTO();
-        userDTO.convert(userService.getUserByUsername(username));
-        return userDTO;
+        return (UserDTO) userDTO.convert(userService.getUserByUsername(username));
+    }
+
+    @Override
+    public String createUser(CreateUserReq req) {
+        return userService.createUser(req);
     }
 }

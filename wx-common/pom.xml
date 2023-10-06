@@ -23,48 +23,11 @@
         <module>wx-common-log</module>
         <module>wx-common-mybatis</module>
         <module>wx-common-rpc</module>
+        <module>wx-common-validation</module>
+        <module>wx-common-auth-starter</module>
     </modules>
 
 
-
-
-    <properties>
-        <jackson.version>2.9.3</jackson.version>
-        <hutool.version>5.5.4</hutool.version>
-    </properties>
-
-    <dependencyManagement>
-        <dependencies>
-            <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-core</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-annotations</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.hutool</groupId>
-                <artifactId>hutool-all</artifactId>
-                <version>${hutool.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.wx.boot</groupId>
-                <artifactId>wx-common-core</artifactId>
-                <version>${parent.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
 
 </project>

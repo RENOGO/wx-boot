@@ -29,3 +29,12 @@ dubbo:
   protocol:
     name: dubbo
     port: 20880
+
+#usercenter:
+#  pwd-salt: wx_boot_all
+
+wx-boot:
+  auth:
+    key: usercenter-skjdbfg
+    module-name: usercenter
+    expired: 604800000

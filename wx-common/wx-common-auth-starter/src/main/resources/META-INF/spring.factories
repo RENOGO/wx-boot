@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.wx.common.auth.config.AutoConfiguration
+
+  

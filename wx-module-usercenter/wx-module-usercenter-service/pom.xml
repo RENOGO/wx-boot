@@ -52,6 +52,22 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.wx.boot</groupId>
+            <artifactId>wx-common-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.wx.boot</groupId>
+            <artifactId>wx-common-module-message-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.wx.boot</groupId>
+            <artifactId>wx-common-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.wx.boot</groupId>
+            <artifactId>wx-common-auth-starter</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

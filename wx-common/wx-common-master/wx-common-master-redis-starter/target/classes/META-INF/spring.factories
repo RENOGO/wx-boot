@@ -1,4 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.wx.common.master.sr.config.MasterRedisConfig
-
-  

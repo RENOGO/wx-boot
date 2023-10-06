@@ -1,8 +1,12 @@
 package com.wx.usercenter.service.user;
 
 import com.wx.common.mybatis.base.BaseServiceImpl;
-import com.wx.usercenter.entity.User;
+import com.wx.common.security.utils.PasswordUtil;
+import com.wx.common.utils.AssertUtil;
+import com.wx.usercenter.api.req.CreateUserReq;
+import com.wx.usercenter.enums.ResponseEnums;
 import com.wx.usercenter.mapper.UserMapper;
+import com.wx.usercenter.model.dos.UserDO;
 import org.springframework.stereotype.Service;
 
 /**
@@ -11,11 +15,28 @@ import org.springframework.stereotype.Service;
  * @Version 1.0
  */
 @Service
-public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implements UserService {
+public class UserServiceImpl extends BaseServiceImpl<UserMapper, UserDO> implements UserService {
+
 
     @Override
-    public User getUserByUsername(String username) {
-        return selectOne(User::getUsername, username);
+    public UserDO getUserByUsername(String username) {
+        return selectOne(UserDO::getUsername, username);
+    }
+
+    @Override
+    public String createUser(CreateUserReq createUserReq) {
+        UserDO user = getUserByUsername(createUserReq.getUsername());
+        AssertUtil.xAssert(user != null, ResponseEnums.ACCOUNT_EXIST);
+        user = new UserDO();
+        user.convert(createUserReq);
+        user.setPassword(PasswordUtil.encode(user.getPassword(), null));
+        AssertUtil.xAssert(!user.insert(), ResponseEnums.REGISTER_FAIL);
+        return user.getId();
+    }
+
+    @Override
+    public void delUser(String userId) {
+        AssertUtil.xAssert(getBaseMapper().deleteById(userId) <= 0, ResponseEnums.REGISTER_FAIL);
     }
 
 

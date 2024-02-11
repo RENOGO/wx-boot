@@ -116,7 +116,6 @@ public class LogAspect {
     }
 
     private String handleAfter(Object res) {
-
         StringBuilder sb = new StringBuilder();
         sb.append("\n").append("\t").append("response start").append("\n");
         sb.append("线程id   ").append(Thread.currentThread().getId()).append("\n");
@@ -127,11 +126,14 @@ public class LogAspect {
         }
         sb.append("响应-请求request-id：").append(RequestIdUtil.getRequestId()).append("\n");
         sb.append("响应内容：").append(JSONUtil.toJsonStr(res)).append("\n");
-        long mill = System.currentTimeMillis() - TIME_THREAD_LOCAL.get();
-        sb.append("方法执行耗时:  ").append(mill).append("毫秒").append("\n");
+        if (TIME_THREAD_LOCAL.get() != null) {
+            long mill = System.currentTimeMillis() - TIME_THREAD_LOCAL.get();
+            sb.append("方法执行耗时:  ").append(mill).append("毫秒").append("\n");
+        }
         sb.append("\t").append("response end");
         String response = sb.toString();
         logger.info(response);
+        TIME_THREAD_LOCAL.remove();
         return response;
     }
 

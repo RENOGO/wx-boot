@@ -9,7 +9,6 @@ public class RedisConstants {
 
     public static final String PRE = "message:";
 
-
     public static final String CAPTCHA_CODE = PRE + "captcha:";
 
     public static String getCaptchaCode(String flag, String id) {

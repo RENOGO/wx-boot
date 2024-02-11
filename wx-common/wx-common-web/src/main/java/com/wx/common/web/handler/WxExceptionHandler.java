@@ -48,8 +48,7 @@ public class WxExceptionHandler {
         exceptionParameter.setRequest(request);
         exceptionParameter.setResponse(response);
         exceptionParameter.setException(e);
-        WebResponse<?> result = exceptionChain.handle(exceptionParameter).getResult();
-        return result;
+        return exceptionChain.handle(exceptionParameter).getResult();
     }
 
     /**

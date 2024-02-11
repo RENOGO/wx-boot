@@ -81,5 +81,5 @@ public class WxResponseHandler implements ResponseBodyAdvice<Object> {
         }
         return WebResponseGenerator.genSuccessResult(o);
     }
-
+    
 }

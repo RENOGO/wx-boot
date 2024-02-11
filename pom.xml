@@ -12,10 +12,12 @@
         <module>wx-common</module>
         <module>wx-gateway</module>
         <module>wx-module-usercenter</module>
-        <module>wx-module-auth</module>
         <module>wx-common-module-services</module>
         <module>wx-module-system</module>
-        <module>wx-common/wx-common-auth-starter</module>
+        <module>wx-module-authorization</module>
+        <module>wx-module-authorization/wx-module-authorization-service</module>
+        <module>wx-module-authorization/wx-module-authorization-api</module>
+        <module>wx-common/wx-common-token</module>
     </modules>
 
 
@@ -26,6 +28,7 @@
     </parent>
 
     <properties>
+        <java.version>11</java.version>
         <jackson.version>2.14.0</jackson.version>
         <hutool.version>5.8.21</hutool.version>
         <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
@@ -37,10 +40,41 @@
         <dubbo.version>3.1.0</dubbo.version>
         <mysql.version>8.0.28</mysql.version>
         <druid.version>1.2.16</druid.version>
+        <spring-cloud.version>2021.0.8</spring-cloud.version>
+        <spring-cloud-alibaba.version>2021.0.4.0</spring-cloud-alibaba.version>
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+        <sa.token.version>1.37.0</sa.token.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+
+
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-registry-nacos</artifactId>
+                <version>${dubbo.version}</version>
+            </dependency>
+
+            <!-- SpringCloud 微服务 -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- SpringCloud Alibaba 微服务 -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
             <!--            mybatis plus-->
             <dependency>
                 <groupId>com.baomidou</groupId>
@@ -53,7 +87,7 @@
                 <artifactId>mybatis-plus-generator</artifactId>
                 <version>${mybatis-plus-generator.version}</version>
             </dependency>
-<!--            -->
+            <!--            -->
 
             <dependency>
                 <groupId>mysql</groupId>
@@ -141,6 +175,12 @@
 
             <dependency>
                 <groupId>com.wx.boot</groupId>
+                <artifactId>wx-module-authorization-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wx.boot</groupId>
                 <artifactId>wx-common-master-redis</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -179,6 +219,11 @@
                 <artifactId>wx-common-validation</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.wx.boot</groupId>
+                <artifactId>wx-common-token</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <!--            -->
             <dependency>
                 <groupId>com.wx.boot</groupId>
@@ -205,8 +250,80 @@
                 <artifactId>wx-common-auth-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.wx.boot</groupId>
+                <artifactId>wx-common-mq-rabbit</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-oauth2 -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-oauth2</artifactId>
+                <version>2.2.5.RELEASE</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-spring-boot-starter</artifactId>
+                <version>${sa.token.version}</version>
+            </dependency>
+
+            <!-- Sa-Token 整合 Redis （使用 jackson 序列化方式） -->
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-redis-jackson</artifactId>
+                <version>${sa.token.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <profiles>
+        <profile>
+            <activation>
+                <!--默认激活配置-->
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <id>local</id>
+            <properties>
+                <profile.name>local</profile.name>
+                <!--配置中心-->
+                <config.server-addr>localhost:8848</config.server-addr>
+                <config.namespace>e8a7d55e-9664-47c1-ac77-dd7050ca7fb8</config.namespace>
+                <!--发现中心-->
+                <discovery.server-addr>localhost:8848</discovery.server-addr>
+                <discovery.namespace>e8a7d55e-9664-47c1-ac77-dd7050ca7fb8</discovery.namespace>
+                <nacos.username>nacos</nacos.username>
+                <nacos.password>nacos</nacos.password>
+            </properties>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <profile.name>test</profile.name>
+                <!--配置中心-->
+                <config.server-addr>localhost:8848</config.server-addr>
+                <config.namespace>e8a7d55e-9664-47c1-ac77-dd7050ca7fb8</config.namespace>
+                <!--发现中心-->
+                <discovery.server-addr>localhost:8848</discovery.server-addr>
+                <discovery.namespace>e8a7d55e-9664-47c1-ac77-dd7050ca7fb8</discovery.namespace>
+                <nacos.username>nacos</nacos.username>
+                <nacos.password>nacos</nacos.password>
+            </properties>
+        </profile>
+    </profiles>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
 
 </project>

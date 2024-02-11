@@ -1,0 +1,40 @@
+# Tomcat
+server:
+  port: 10000
+  servlet:
+    context-path: /message
+
+# Spring
+spring:
+  application:
+    # 应用名称
+    name: @artifactId@
+  profiles:
+    # 环境配置
+    active: @profile.name@
+  cloud:
+    nacos:
+      discovery:
+        # 服务注册地址
+        server-addr: @discovery.server-addr@
+        namespace: @discovery.namespace@
+      config:
+        # 配置中心地址
+        server-addr: @config.server-addr@
+        namespace: @config.namespace@
+        # 配置文件格式
+        file-extension: yaml
+        # 共享配置
+        shared-configs:
+          - data-id: application-common.yaml
+            refresh: true
+      username: @nacos.username@
+      password: @nacos.password@
+
+
+dubbo:
+  protocol:
+    name: dubbo
+    port: 20882
+  registry:
+    address: nacos://@discovery.server-addr@?username=@nacos.username@&password=@nacos.password@

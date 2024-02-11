@@ -3,7 +3,7 @@ package com.wx.usercenter.service.user;
 import com.wx.common.mybatis.base.BaseServiceImpl;
 import com.wx.common.security.utils.PasswordUtil;
 import com.wx.common.utils.AssertUtil;
-import com.wx.usercenter.api.req.CreateUserReq;
+import com.wx.usercenter.api.request.CreateUserRequest;
 import com.wx.usercenter.enums.ResponseEnums;
 import com.wx.usercenter.mapper.UserMapper;
 import com.wx.usercenter.model.dos.UserDO;
@@ -24,11 +24,11 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, UserDO> impleme
     }
 
     @Override
-    public String createUser(CreateUserReq createUserReq) {
-        UserDO user = getUserByUsername(createUserReq.getUsername());
+    public String createUser(CreateUserRequest createUserRequest) {
+        UserDO user = getUserByUsername(createUserRequest.getUsername());
         AssertUtil.xAssert(user != null, ResponseEnums.ACCOUNT_EXIST);
         user = new UserDO();
-        user.convert(createUserReq);
+        user.convert(createUserRequest);
         user.setPassword(PasswordUtil.encode(user.getPassword(), null));
         AssertUtil.xAssert(!user.insert(), ResponseEnums.REGISTER_FAIL);
         return user.getId();

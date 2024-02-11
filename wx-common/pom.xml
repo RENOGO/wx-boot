@@ -25,6 +25,7 @@
         <module>wx-common-rpc</module>
         <module>wx-common-validation</module>
         <module>wx-common-auth-starter</module>
+        <module>wx-common-mq</module>
     </modules>
 
 

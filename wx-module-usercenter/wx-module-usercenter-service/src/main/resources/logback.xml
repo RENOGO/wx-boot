@@ -90,7 +90,7 @@
     <!--    上面的配置要生效，都要引入logger-->
 
     <!-- 系统模块日志级别控制,name+level属性代表这个包下只能打印这个级别及其以上的  -->
-    <logger name="com.xag" level="info" />
+    <logger name="com.wx" level="info" />
 
     <!-- Spring日志级别控制  -->
     <logger name="org.springframework" level="warn" />

@@ -1,7 +1,7 @@
 package com.wx.usercenter.service.user;
 
 import com.wx.common.mybatis.base.IBaseService;
-import com.wx.usercenter.api.req.CreateUserReq;
+import com.wx.usercenter.api.request.CreateUserRequest;
 import com.wx.usercenter.model.dos.UserDO;
 
 /**
@@ -21,10 +21,10 @@ public interface UserService extends IBaseService<UserDO> {
 
     /**
      * 创建用户
-     * @param createUserReq
+     * @param createUserRequest
      * @return
      */
-    String createUser(CreateUserReq createUserReq);
+    String createUser(CreateUserRequest createUserRequest);
 
 
     /**

@@ -8,5 +8,8 @@ package com.wx.usercenter.constants;
 public class UserCenterConstants {
 
 
-    public static final String USERCENTER_MODULE = "usercenter";
+    public static final String MODULE_NAME = "usercenter";
+
+
+
 }

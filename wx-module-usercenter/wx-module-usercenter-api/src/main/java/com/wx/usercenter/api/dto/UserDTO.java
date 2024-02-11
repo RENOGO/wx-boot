@@ -1,9 +1,7 @@
 package com.wx.usercenter.api.dto;
 
-import com.wx.usercenter.api.base.BaseUser;
+import com.wx.usercenter.api.base.BaseUserDTO;
 import lombok.Data;
-
-import javax.validation.constraints.NotBlank;
 
 /**
  * @Author wuweixin
@@ -11,12 +9,13 @@ import javax.validation.constraints.NotBlank;
  * @Version 1.0
  */
 @Data
-public class UserDTO extends BaseUser {
+public class UserDTO extends BaseUserDTO {
 
     /**
      * 密码，这里采用sha1进行转换
      */
     private String password;
+
 
 
 }

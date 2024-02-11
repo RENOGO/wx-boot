@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.wx.common.base.IBaseDO;
 import com.wx.common.base.IConvert;
 import com.wx.common.mybatis.constants.DeleteFlagEnum;
 import io.swagger.annotations.ApiModelProperty;
@@ -18,7 +19,8 @@ import java.util.Date;
  *
  * @author wx
  */
-public abstract class BaseDO<T extends Model<?>> extends Model<T> implements IConvert, Serializable {
+public abstract class BaseDO<T extends Model<?>> extends Model<T> implements IBaseDO, IConvert, Serializable {
+
 
     @TableId("id")
     @ApiModelProperty(value = "主键Id")
@@ -54,6 +56,7 @@ public abstract class BaseDO<T extends Model<?>> extends Model<T> implements ICo
         return this.id;
     }
 
+    @Override
     public String getId() {
         return id;
     }
@@ -62,42 +65,52 @@ public abstract class BaseDO<T extends Model<?>> extends Model<T> implements ICo
         this.id = id;
     }
 
+    @Override
     public Date getCreateTime() {
         return createTime;
     }
 
+    @Override
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
+    @Override
     public Date getUpdateTime() {
         return updateTime;
     }
 
+    @Override
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
 
+    @Override
     public String getUpdateBy() {
         return updateBy;
     }
 
+    @Override
     public void setUpdateBy(String updateBy) {
         this.updateBy = updateBy;
     }
 
+    @Override
     public String getCreateBy() {
         return createBy;
     }
 
+    @Override
     public void setCreateBy(String createBy) {
         this.createBy = createBy;
     }
 
+    @Override
     public String getRemark() {
         return remark;
     }
 
+    @Override
     public void setRemark(String remark) {
         this.remark = remark;
     }
@@ -110,10 +123,12 @@ public abstract class BaseDO<T extends Model<?>> extends Model<T> implements ICo
         this.deleteFlag = deleteFlag;
     }
 
+    @Override
     public String getExtra() {
         return extra;
     }
 
+    @Override
     public void setExtra(String extra) {
         this.extra = extra;
     }

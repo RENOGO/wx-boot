@@ -42,19 +42,10 @@
             <groupId>com.wx.boot</groupId>
             <artifactId>wx-common-rpc-dubbo</artifactId>
         </dependency>
-        <!-- dubbo-registry-zookeeper -->
-        <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-registry-zookeeper</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.wx.boot</groupId>
-            <artifactId>wx-common-security</artifactId>
         </dependency>
         <dependency>
             <groupId>com.wx.boot</groupId>
@@ -66,8 +57,43 @@
         </dependency>
         <dependency>
             <groupId>com.wx.boot</groupId>
-            <artifactId>wx-common-auth-starter</artifactId>
+            <artifactId>wx-common-security</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.wx.boot</groupId>
+            <artifactId>wx-module-authorization-api</artifactId>
+        </dependency>
+
     </dependencies>
 
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <!--打包跳过测试-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <!--            -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

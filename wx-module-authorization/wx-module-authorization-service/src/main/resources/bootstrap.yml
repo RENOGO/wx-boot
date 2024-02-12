@@ -28,8 +28,6 @@ spring:
         shared-configs:
           - data-id: application-common.yaml
             refresh: true
-          - data-id: common-token.yaml
-            refresh: true
       username: @nacos.username@
       password: @nacos.password@
 

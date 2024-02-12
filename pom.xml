@@ -15,9 +15,6 @@
         <module>wx-common-module-services</module>
         <module>wx-module-system</module>
         <module>wx-module-authorization</module>
-        <module>wx-module-authorization/wx-module-authorization-service</module>
-        <module>wx-module-authorization/wx-module-authorization-api</module>
-        <module>wx-common/wx-common-token</module>
     </modules>
 
 
@@ -206,6 +203,16 @@
             </dependency>
             <dependency>
                 <groupId>com.wx.boot</groupId>
+                <artifactId>wx-common-base-token</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.wx.boot</groupId>
+                <artifactId>wx-common-reactor-token</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.wx.boot</groupId>
                 <artifactId>wx-common-mybatis</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -266,6 +273,12 @@
             <dependency>
                 <groupId>cn.dev33</groupId>
                 <artifactId>sa-token-spring-boot-starter</artifactId>
+                <version>${sa.token.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-reactor-spring-boot-starter</artifactId>
                 <version>${sa.token.version}</version>
             </dependency>
 

@@ -20,6 +20,18 @@ public class WebResponseGenerator {
 				.setMessage(message);
 	}
 
+	public static <T> WebResponse<T> genFailResult(IResponseEnum responseEnum, String message) {
+		return new WebResponse<T>()
+				.setCode(responseEnum)
+				.setMessage(message);
+	}
+
+	/**
+	 *
+	 * @param exception
+	 * @return
+	 * @param <T>
+	 */
 	public static <T> WebResponse<T> genExceptionResult(BaseException exception) {
 		return new WebResponse<T>()
 				.setCode(exception);

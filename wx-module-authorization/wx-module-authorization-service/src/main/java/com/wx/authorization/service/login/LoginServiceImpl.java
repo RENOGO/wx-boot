@@ -1,6 +1,7 @@
 package com.wx.authorization.service.login;
 
 import com.common.token.model.LoginUser;
+import com.common.token.model.TokenUserInfo;
 import com.common.token.utils.LoginUtil;
 import com.wx.authorization.api.request.LoginRequest;
 import com.wx.authorization.constants.AuthorizationConstants;
@@ -8,7 +9,7 @@ import com.wx.authorization.constants.ResponseStatusEnum;
 import com.wx.common.utils.AssertUtil;
 import com.wx.message.api.dto.CaptchaDTO;
 import com.wx.message.api.service.CaptchaServiceApi;
-import com.wx.usercenter.api.dto.UserDTO;
+import com.wx.usercenter.api.dto.SysUserDTO;
 import com.wx.usercenter.api.service.UserServiceApi;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
@@ -34,10 +35,13 @@ public class LoginServiceImpl implements LoginService {
                         .verifyCaptcha(AuthorizationConstants.MODULE_NAME,
                                 loginRequest.getCaptchaId(), loginRequest.getCaptcha(), true),
                 ResponseStatusEnum.CAPTCHA_CODE_ERROR);
-        UserDTO user = userServiceApi.getUserByUsername(loginRequest.getUsername());
+        SysUserDTO user = userServiceApi.getUserByUsername(loginRequest.getUsername());
         AssertUtil.xAssert(user == null || !loginRequest.getPassword().equals(user.getPassword()),
                 ResponseStatusEnum.USER_PWD_ERROR);
-        return LoginUtil.login(user.getId(), user);
+        TokenUserInfo tokenUserInfo = new TokenUserInfo();
+        tokenUserInfo = (TokenUserInfo) tokenUserInfo.convert(user);
+
+        return LoginUtil.login(user.getId(), tokenUserInfo);
     }
 
     @Override

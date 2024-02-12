@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wx.usercenter.mapper.SysRoleMapper">
+
+    <resultMap type="com.wx.usercenter.model.dos.SysRoleDO" id="SysRoleMap">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="extra" column="extra" jdbcType="VARCHAR"/>
+        <result property="deleteFlag" column="delete_flag" jdbcType="INTEGER"/>
+        <result property="roleKey" column="role_key" jdbcType="VARCHAR"/>
+        <result property="roleName" column="role_name" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="num" column="num" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="SysRoleMap">
+        select
+          id, update_time, create_time, update_by, create_by, remark, extra, delete_flag, role_key, role_name, status, num
+        from sys_role
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="SysRoleMap">
+        select
+          id, update_time, create_time, update_by, create_by, remark, extra, delete_flag, role_key, role_name, status, num
+        from sys_role
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                and update_by = #{updateBy}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                and create_by = #{createBy}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark}
+            </if>
+            <if test="extra != null and extra != ''">
+                and extra = #{extra}
+            </if>
+            <if test="deleteFlag != null">
+                and delete_flag = #{deleteFlag}
+            </if>
+            <if test="roleKey != null and roleKey != ''">
+                and role_key = #{roleKey}
+            </if>
+            <if test="roleName != null and roleName != ''">
+                and role_name = #{roleName}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="num != null">
+                and num = #{num}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from sys_role
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                and update_by = #{updateBy}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                and create_by = #{createBy}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark}
+            </if>
+            <if test="extra != null and extra != ''">
+                and extra = #{extra}
+            </if>
+            <if test="deleteFlag != null">
+                and delete_flag = #{deleteFlag}
+            </if>
+            <if test="roleKey != null and roleKey != ''">
+                and role_key = #{roleKey}
+            </if>
+            <if test="roleName != null and roleName != ''">
+                and role_name = #{roleName}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="num != null">
+                and num = #{num}
+            </if>
+        </where>
+    </select>
+    <select id="selectRole" resultType="com.wx.usercenter.model.dos.SysRoleDO">
+        SELECT
+        sr.id,
+        sr.update_time,
+        sr.create_time,
+        sr.update_by,
+        sr.create_by,
+        sr.remark,
+        sr.extra,
+        sr.delete_flag,
+        sr.role_key,
+        sr.role_name,
+        sr.status,
+        sr.num
+        FROM
+        sys_user su
+        LEFT JOIN sys_user_role sur ON su.id = sur.user_id
+        LEFT JOIN sys_role sr ON sr.id = sur.role_id
+        <where>
+            AND su.delete_flag = 0
+            <if test="userId !=null and userId != ''">
+                su.id = #{userId}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into sys_role(update_time, create_time, update_by, create_by, remark, extra, delete_flag, role_key, role_name, status, num)
+        values (#{updateTime}, #{createTime}, #{updateBy}, #{createBy}, #{remark}, #{extra}, #{deleteFlag}, #{roleKey}, #{roleName}, #{status}, #{num})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into sys_role(update_time, create_time, update_by, create_by, remark, extra, delete_flag, role_key, role_name, status, num)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.updateTime}, #{entity.createTime}, #{entity.updateBy}, #{entity.createBy}, #{entity.remark}, #{entity.extra}, #{entity.deleteFlag}, #{entity.roleKey}, #{entity.roleName}, #{entity.status}, #{entity.num})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into sys_role(update_time, create_time, update_by, create_by, remark, extra, delete_flag, role_key, role_name, status, num)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.updateTime}, #{entity.createTime}, #{entity.updateBy}, #{entity.createBy}, #{entity.remark}, #{entity.extra}, #{entity.deleteFlag}, #{entity.roleKey}, #{entity.roleName}, #{entity.status}, #{entity.num})
+        </foreach>
+        on duplicate key update
+        update_time = values(update_time),
+        create_time = values(create_time),
+        update_by = values(update_by),
+        create_by = values(create_by),
+        remark = values(remark),
+        extra = values(extra),
+        delete_flag = values(delete_flag),
+        role_key = values(role_key),
+        role_name = values(role_name),
+        status = values(status),
+        num = values(num)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update sys_role
+        <set>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                update_by = #{updateBy},
+            </if>
+            <if test="createBy != null and createBy != ''">
+                create_by = #{createBy},
+            </if>
+            <if test="remark != null and remark != ''">
+                remark = #{remark},
+            </if>
+            <if test="extra != null and extra != ''">
+                extra = #{extra},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag = #{deleteFlag},
+            </if>
+            <if test="roleKey != null and roleKey != ''">
+                role_key = #{roleKey},
+            </if>
+            <if test="roleName != null and roleName != ''">
+                role_name = #{roleName},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="num != null">
+                num = #{num},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from sys_role where id = #{id}
+    </delete>
+
+</mapper>
+

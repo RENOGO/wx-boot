@@ -1,9 +1,9 @@
 package com.wx.usercenter.api;
 
-import com.wx.usercenter.api.dto.UserDTO;
+import com.wx.usercenter.api.dto.SysUserDTO;
 import com.wx.usercenter.api.request.CreateUserRequest;
 import com.wx.usercenter.api.service.UserServiceApi;
-import com.wx.usercenter.service.user.UserService;
+import com.wx.usercenter.service.user.SysUserService;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,16 +18,16 @@ import org.springframework.stereotype.Service;
 public class UserServiceApiImpl implements UserServiceApi {
 
     @Autowired
-    private UserService userService;
+    private SysUserService sysUserService;
 
     @Override
-    public UserDTO getUserByUsername(String username) {
-        UserDTO userDTO = new UserDTO();
-        return (UserDTO) userDTO.convert(userService.getUserByUsername(username));
+    public SysUserDTO getUserByUsername(String username) {
+        SysUserDTO sysUserDTO = new SysUserDTO();
+        return (SysUserDTO) sysUserDTO.convert(sysUserService.getUserByUsername(username));
     }
 
     @Override
     public String createUser(CreateUserRequest req) {
-        return userService.createUser(req);
+        return sysUserService.createUser(req);
     }
 }

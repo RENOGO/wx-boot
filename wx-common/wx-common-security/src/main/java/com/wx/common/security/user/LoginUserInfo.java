@@ -16,7 +16,6 @@ import java.util.List;
 public class LoginUserInfo implements Serializable {
 
 
-    private List<String> permissions;
 
     private List<String> roles;
 

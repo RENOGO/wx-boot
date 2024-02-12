@@ -20,7 +20,6 @@ import java.io.Serializable;
 @Data
 public class BaseUserDTO extends BaseDTO implements Serializable {
 
-    //后续补充权限与角色
 
     /**
      * 用户名，同时也是账户名

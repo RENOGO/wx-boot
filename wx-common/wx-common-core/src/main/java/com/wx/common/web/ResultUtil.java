@@ -1,7 +1,9 @@
 package com.wx.common.web;
 
 
-public class WebResponseGenerator {
+import com.wx.common.exception.BaseException;
+
+public class ResultUtil {
 
 	public static <T> WebResponse<T> genSuccessResult() {
 		return new WebResponse<T>()
@@ -19,6 +21,14 @@ public class WebResponseGenerator {
 				.setCode(BaseResponseEnum.BAD_REQUEST)
 				.setMessage(message);
 	}
+
+
+	public static <T> WebResponse<T> genFailResult(IResponseEnum responseEnum) {
+		return new WebResponse<T>()
+				.setCode(responseEnum)
+				.setMessage(responseEnum.getMessage());
+	}
+
 
 	public static <T> WebResponse<T> genFailResult(IResponseEnum responseEnum, String message) {
 		return new WebResponse<T>()

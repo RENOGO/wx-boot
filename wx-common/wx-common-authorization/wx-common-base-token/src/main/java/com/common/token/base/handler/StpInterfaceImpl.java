@@ -46,6 +46,12 @@ public class StpInterfaceImpl implements StpInterface {
                     RedisUtil.set(TokenRedisConstants.getUserPermission(userId), sysPermissionDOS, tokenProperties.getCachePermissionTime());
                     return sysPermissionDOS;
                 });
+//        if (userId.equals("admin")) {
+//            sysPermissionDTOS = new ArrayList<>();
+//            SysPermissionDTO sysPermissionDTO = new SysPermissionDTO();
+//            sysPermissionDTO.setPermission("admin");
+//            sysPermissionDTOS.add(sysPermissionDTO);
+//        }
         if (CollectionUtil.isEmpty(sysPermissionDTOS)) {
             return null;
         }

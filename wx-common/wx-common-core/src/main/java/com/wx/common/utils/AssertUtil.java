@@ -1,7 +1,7 @@
 package com.wx.common.utils;
 
 import cn.hutool.core.util.StrUtil;
-import com.wx.common.web.BusinessException;
+import com.wx.common.exception.BusinessException;
 import com.wx.common.web.IResponseEnum;
 import com.wx.common.web.BaseResponseEnum;
 

@@ -17,7 +17,7 @@ public class TokenProperties {
     /**
      * 是否开启验证权限
      */
-    private boolean enableCheckPermission;
+//    private boolean enableCheckPermission;
 
     /**
      * 缓存用户权限的时间，单位秒

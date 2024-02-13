@@ -21,5 +21,11 @@ public interface SysPermissionService extends IBaseService<SysPermissionDO> {
      */
     List<SysPermissionDO> selectPermissionByUserId(String userId);
 
+
+//    /**
+//     * 查询所有的权限
+//     * @return
+//     */
+//    List<SysPermissionDO> selectAllPermission();
 }
 

@@ -5,7 +5,7 @@ import cn.hutool.json.JSONUtil;
 import com.wx.common.constants.HttpResponseHeaders;
 import com.wx.common.utils.RequestIdUtil;
 import com.wx.common.web.WebResponse;
-import com.wx.common.web.WebResponseGenerator;
+import com.wx.common.web.ResultUtil;
 import com.wx.common.web.annotation.IgnoreResponseBody;
 import com.wx.common.web.config.CommonWebProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,9 +77,9 @@ public class WxResponseHandler implements ResponseBodyAdvice<Object> {
         //所以这里要转为字符串
         if (o instanceof String) {
             serverHttpResponse.getHeaders().set("Content-Type", "application/json");
-            return JSONUtil.toJsonStr(WebResponseGenerator.genSuccessResult(o));
+            return JSONUtil.toJsonStr(ResultUtil.genSuccessResult(o));
         }
-        return WebResponseGenerator.genSuccessResult(o);
+        return ResultUtil.genSuccessResult(o);
     }
     
 }

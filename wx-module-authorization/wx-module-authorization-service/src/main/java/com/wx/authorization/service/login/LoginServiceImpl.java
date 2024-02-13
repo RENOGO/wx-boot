@@ -1,8 +1,8 @@
 package com.wx.authorization.service.login;
 
-import com.common.token.model.LoginUser;
-import com.common.token.model.TokenUserInfo;
-import com.common.token.utils.LoginUtil;
+import com.common.token.base.model.LoginUser;
+import com.common.token.base.model.TokenUserInfo;
+import com.common.token.base.utils.LoginUtil;
 import com.wx.authorization.api.request.LoginRequest;
 import com.wx.authorization.constants.AuthorizationConstants;
 import com.wx.authorization.constants.ResponseStatusEnum;
@@ -42,6 +42,9 @@ public class LoginServiceImpl implements LoginService {
         tokenUserInfo = (TokenUserInfo) tokenUserInfo.convert(user);
 
         return LoginUtil.login(user.getId(), tokenUserInfo);
+//        TokenUserInfo tokenUserInfo = new TokenUserInfo();
+//        tokenUserInfo.setId("admin");
+//        return LoginUtil.login("admin", tokenUserInfo);
     }
 
     @Override

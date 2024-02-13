@@ -2,9 +2,9 @@ package com.wx.common.web.handler;
 
 import com.wx.common.constants.HttpResponseHeaders;
 import com.wx.common.utils.RequestIdUtil;
-import com.wx.common.web.BaseException;
+import com.wx.common.exception.BaseException;
 import com.wx.common.web.WebResponse;
-import com.wx.common.web.WebResponseGenerator;
+import com.wx.common.web.ResultUtil;
 import com.wx.common.web.exceptions.ExceptionChain;
 import com.wx.common.web.exceptions.ExceptionParameter;
 import org.slf4j.Logger;
@@ -62,7 +62,7 @@ public class WxExceptionHandler {
     public WebResponse<?> appError(HttpServletResponse response, BaseException e) {
         response.setStatus(HttpStatus.OK.value());
         response.setHeader(HttpResponseHeaders.REQUEST_ID, RequestIdUtil.getRequestId());
-        return WebResponseGenerator.genExceptionResult(e);
+        return ResultUtil.genExceptionResult(e);
     }
 
 

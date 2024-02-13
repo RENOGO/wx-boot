@@ -1,4 +1,4 @@
-package com.common.token.config;
+package com.common.token.reactor.config;
 
 import cn.dev33.satoken.stp.StpInterface;
 import com.common.token.base.constants.TokenProperties;
@@ -19,6 +19,7 @@ public class TokenConfiguration {
 
 
 //    @Bean
+//    @ConditionalOnProperty(name = PropertiesPre.TOKEN + ".enable-check-permission", havingValue = "true", matchIfMissing = false)
 //    public SaTokenConfigure saTokenConfigure() {
 //        return new SaTokenConfigure();
 //    }

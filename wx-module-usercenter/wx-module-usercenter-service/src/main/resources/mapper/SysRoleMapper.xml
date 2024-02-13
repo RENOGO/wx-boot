@@ -135,7 +135,7 @@
         <where>
             AND su.delete_flag = 0
             <if test="userId !=null and userId != ''">
-                su.id = #{userId}
+                AND su.id = #{userId}
             </if>
         </where>
     </select>

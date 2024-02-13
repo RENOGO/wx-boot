@@ -18,18 +18,13 @@ public class SysPermissionServiceImpl extends BaseServiceImpl<SysPermissionMappe
 
     @Override
     public List<SysPermissionDO> selectPermissionByUserId(String userId) {
-//        return Optional.ofNullable((List<SysPermissionDO>) RedisUtil.get(RedisConstants.getUserPermission(userId)))
-//                .orElseGet(() -> {
-//                    List<SysPermissionDO> sysPermissionDOS = getBaseMapper().selectPermission(userId);
-//                    if (sysPermissionDOS == null) {
-//                        return null;
-//                    }
-//                    RedisUtil.set(RedisConstants.getUserPermission(userId), sysPermissionDOS, RedisConstants.DEFAULT_PERMISSION_EXPIRE);
-//                    return sysPermissionDOS;
-//                });
         return getBaseMapper().selectPermission(userId);
     }
 
+//    @Override
+//    public List<SysPermissionDO> selectAllPermission() {
+//        return selectList();
+//    }
 
 }
 

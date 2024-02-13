@@ -1,7 +1,7 @@
 package com.wx.common.web.exceptions.handler;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
-import com.wx.common.web.WebResponseGenerator;
+import com.wx.common.web.ResultUtil;
 import com.wx.common.web.annotation.ExceptionOrder;
 import com.wx.common.web.config.CommonWebProperties;
 import com.wx.common.web.constants.CommonWebConstants;
@@ -40,34 +40,34 @@ public class ExceptionHandler extends BaseWebResponseExceptionHandler {
         if (e instanceof MethodArgumentNotValidException) {
             MethodArgumentNotValidException argNotValid = (MethodArgumentNotValidException) e;
             String argNotValidMsg = argNotValid.getBindingResult().getAllErrors().get(0).getDefaultMessage();
-            exceptionParameter.setResult(WebResponseGenerator.genFailResult(argNotValidMsg));
+            exceptionParameter.setResult(ResultUtil.genFailResult(argNotValidMsg));
         }
         if (CommonWebConstants.ACCESS_DENIED_CLASS.equals(e.getClass().getName())) {
-            exceptionParameter.setResult(WebResponseGenerator.genFailResult("无权限访问"));
+            exceptionParameter.setResult(ResultUtil.genFailResult("无权限访问"));
         }
         //参数不合法
         if (e instanceof MissingServletRequestParameterException) {
             MissingServletRequestParameterException argNotValid = (MissingServletRequestParameterException) e;
             String argNotValidMsg = "缺少" + argNotValid.getParameterName() + "参数";
-            exceptionParameter.setResult(WebResponseGenerator.genFailResult(argNotValidMsg));
+            exceptionParameter.setResult(ResultUtil.genFailResult(argNotValidMsg));
         }
         //请求方式错误
         if (e instanceof HttpRequestMethodNotSupportedException) {
-            exceptionParameter.setResult(WebResponseGenerator.genFailResult("请求方式错误"));
+            exceptionParameter.setResult(ResultUtil.genFailResult("请求方式错误"));
         }
         if (e instanceof IllegalArgumentException) {
             IllegalArgumentException illegalArgumentException = (IllegalArgumentException) e;
-            exceptionParameter.setResult(WebResponseGenerator.genFailResult(illegalArgumentException.getMessage()));
+            exceptionParameter.setResult(ResultUtil.genFailResult(illegalArgumentException.getMessage()));
         }
         if (e instanceof ConstraintViolationException) {
             ConstraintViolationException constraintViolationException = (ConstraintViolationException) e;
             Set<ConstraintViolation<?>> constraintViolations =
                     constraintViolationException.getConstraintViolations();
-            exceptionParameter.setResult(WebResponseGenerator.genFailResult(constraintViolations.iterator().next().getMessageTemplate()));
+            exceptionParameter.setResult(ResultUtil.genFailResult(constraintViolations.iterator().next().getMessageTemplate()));
         }
         if (exceptionParameter.getResult() == null) {
             exceptionParameter
-                    .setResult(WebResponseGenerator.genSysFailResult(commonWebProperties.isShowSysError() ? ExceptionUtil.getMessage(e) : ""));
+                    .setResult(ResultUtil.genSysFailResult(commonWebProperties.isShowSysError() ? ExceptionUtil.getMessage(e) : ""));
         }
         return handle(exceptionParameter);
     }

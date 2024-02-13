@@ -1,12 +1,12 @@
 package com.wx.usercenter.service.user;
 
 import com.wx.common.mybatis.base.BaseServiceImpl;
-import com.wx.common.security.utils.PasswordUtil;
 import com.wx.common.utils.AssertUtil;
 import com.wx.usercenter.api.request.CreateUserRequest;
 import com.wx.usercenter.enums.ResponseEnums;
 import com.wx.usercenter.mapper.SysUserMapper;
 import com.wx.usercenter.model.dos.SysUserDO;
+import com.wx.usercenter.utils.PasswordUtil;
 import org.springframework.stereotype.Service;
 
 /**

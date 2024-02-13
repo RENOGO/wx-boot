@@ -24,15 +24,6 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRoleDO
      */
     @Override
     public List<SysRoleDO> selectRoleByUserId(String userId) {
-//        return Optional.ofNullable((List<SysRoleDO>) RedisUtil.get(RedisConstants.getUserPermission(userId)))
-//                .orElseGet(() -> {
-//                    List<SysRoleDO> sysPermissionDOS = getBaseMapper().selectRole(userId);
-//                    if (sysPermissionDOS == null) {
-//                        return null;
-//                    }
-//                    RedisUtil.set(RedisConstants.getUserPermission(userId), sysPermissionDOS, RedisConstants.DEFAULT_PERMISSION_EXPIRE);
-//                    return sysPermissionDOS;
-//                });
         return getBaseMapper().selectRole(userId);
     }
 }

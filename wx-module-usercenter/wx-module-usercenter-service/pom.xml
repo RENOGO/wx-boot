@@ -57,10 +57,6 @@
         </dependency>
         <dependency>
             <groupId>com.wx.boot</groupId>
-            <artifactId>wx-common-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.wx.boot</groupId>
             <artifactId>wx-module-authorization-api</artifactId>
         </dependency>
 

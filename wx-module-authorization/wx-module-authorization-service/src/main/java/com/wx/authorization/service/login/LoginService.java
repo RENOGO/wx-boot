@@ -1,6 +1,6 @@
 package com.wx.authorization.service.login;
 
-import com.common.token.model.LoginUser;
+import com.common.token.base.model.LoginUser;
 import com.wx.authorization.api.request.LoginRequest;
 import com.wx.message.api.dto.CaptchaDTO;
 

@@ -1,6 +1,6 @@
 package com.wx.authorization.controller;
 
-import com.common.token.model.LoginUser;
+import com.common.token.base.model.LoginUser;
 import com.wx.authorization.api.request.LoginRequest;
 import com.wx.authorization.service.login.LoginService;
 import io.swagger.annotations.Api;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Descritube
  */
 @RestController
-@Api(tags = "用户登录")
+@Api(tags = "认证模块")
 public class LoginController {
 
     @Autowired

@@ -1,6 +1,7 @@
 package com.wx.common.web;
 
 import cn.hutool.json.JSONUtil;
+import com.wx.common.exception.BaseException;
 
 import java.io.Serializable;
 

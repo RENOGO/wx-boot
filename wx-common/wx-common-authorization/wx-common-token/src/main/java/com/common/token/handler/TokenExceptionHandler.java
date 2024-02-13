@@ -3,7 +3,7 @@ package com.common.token.handler;
 import cn.dev33.satoken.exception.NotLoginException;
 import com.wx.common.web.BaseResponseEnum;
 import com.wx.common.web.WebResponse;
-import com.wx.common.web.WebResponseGenerator;
+import com.wx.common.web.ResultUtil;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -51,6 +51,6 @@ public class TokenExceptionHandler {
         }
 
         // 返回给前端
-        return WebResponseGenerator.genFailResult(BaseResponseEnum.UNAUTHORIZED, message);
+        return ResultUtil.genFailResult(BaseResponseEnum.UNAUTHORIZED, message);
     }
 }

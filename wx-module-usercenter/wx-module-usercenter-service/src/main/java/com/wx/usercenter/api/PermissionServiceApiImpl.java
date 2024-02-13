@@ -37,4 +37,6 @@ public class PermissionServiceApiImpl implements PermissionServiceApi {
             return (SysPermissionDTO) sysPermissionDTO.convert(sysPermissionDTO);
         }).collect(Collectors.toList());
     }
+
+
 }

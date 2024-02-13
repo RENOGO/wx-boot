@@ -1,8 +1,8 @@
 package com.wx.common.web.exceptions.handler;
 
-import com.wx.common.web.BaseException;
-import com.wx.common.web.BusinessException;
-import com.wx.common.web.WebResponseGenerator;
+import com.wx.common.exception.BaseException;
+import com.wx.common.exception.BusinessException;
+import com.wx.common.web.ResultUtil;
 import com.wx.common.web.annotation.ExceptionOrder;
 import com.wx.common.web.exceptions.ExceptionParameter;
 import org.springframework.stereotype.Component;
@@ -39,7 +39,7 @@ public class DubboExceptionHandler extends BaseWebResponseExceptionHandler {
             if (matcher.find()) {
                 String code = matcher.group(1);
                 String msg = matcher.group(2);
-                exceptionParameter.setResult(WebResponseGenerator.genExceptionResult(new BaseException(Integer.parseInt(code), msg)));
+                exceptionParameter.setResult(ResultUtil.genExceptionResult(new BaseException(Integer.parseInt(code), msg)));
                 return exceptionParameter;
             }
         }

@@ -4,9 +4,9 @@ package com.wx.common.security.auth;
 import cn.hutool.http.HttpStatus;
 import com.wx.common.security.utils.ResponseUtils;
 import com.wx.common.web.BaseResponseEnum;
-import com.wx.common.web.BusinessException;
+import com.wx.common.exception.BusinessException;
 import com.wx.common.web.WebResponse;
-import com.wx.common.web.WebResponseGenerator;
+import com.wx.common.web.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.AuthenticationException;
@@ -37,7 +37,7 @@ public class AdminAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request,
                          HttpServletResponse response,
                          AuthenticationException e) {
-        WebResponse<Object> objectResult = WebResponseGenerator.genExceptionResult(new BusinessException(BaseResponseEnum.UNAUTHORIZED));
+        WebResponse<Object> objectResult = ResultUtil.genExceptionResult(new BusinessException(BaseResponseEnum.UNAUTHORIZED));
         logger.error("AdminAuthenticationEntryPoint响应 {}", objectResult);
         response.setStatus(HttpStatus.HTTP_UNAUTHORIZED);
         ResponseUtils.out(response, objectResult);

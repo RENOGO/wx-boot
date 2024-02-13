@@ -136,7 +136,7 @@
         LEFT JOIN sys_permission sp ON sp.id = spr.permission_id AND sp.delete_flag = 0
         <where>
             <if test="userId != null and userId != ''">
-                su.id = #{userId}
+                AND su.id = #{userId}
             </if>
             AND su.delete_flag = 0
         </where>
@@ -162,7 +162,7 @@
         LEFT JOIN sys_permission sp ON sp.id = smp.permission_id AND sp.delete_flag = 0
         <where>
             <if test="userId != null and userId != ''">
-                su.id = #{userId}
+                AND su.id = #{userId}
             </if>
             AND su.delete_flag = 0
         </where>

@@ -1,6 +1,7 @@
-package com.wx.common.web;
+package com.wx.common.exception;
 
 import cn.hutool.core.util.StrUtil;
+import com.wx.common.web.IResponseEnum;
 
 /**
  * 异常基类

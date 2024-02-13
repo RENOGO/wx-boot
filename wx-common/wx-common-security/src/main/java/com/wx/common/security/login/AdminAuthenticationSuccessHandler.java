@@ -2,7 +2,7 @@ package com.wx.common.security.login;
 
 import com.wx.common.security.user.SecurityUser;
 import com.wx.common.security.utils.ResponseUtils;
-import com.wx.common.web.WebResponseGenerator;
+import com.wx.common.web.ResultUtil;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -22,6 +22,6 @@ public class AdminAuthenticationSuccessHandler implements AuthenticationSuccessH
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse response, Authentication auth) throws IOException, ServletException {
         SecurityUser securityUser = ((SecurityUser) auth.getPrincipal());
-        ResponseUtils.out(response, WebResponseGenerator.genSuccessResult(securityUser.getLoginUser()));
+        ResponseUtils.out(response, ResultUtil.genSuccessResult(securityUser.getLoginUser()));
     }
 }

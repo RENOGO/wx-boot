@@ -1,7 +1,7 @@
 package com.wx.common.security.login;
 
 import com.wx.common.security.utils.ResponseUtils;
-import com.wx.common.web.WebResponseGenerator;
+import com.wx.common.web.ResultUtil;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
@@ -20,7 +20,7 @@ public class AdminAuthenticationFailureHandler implements AuthenticationFailureH
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
-        ResponseUtils.out(response, WebResponseGenerator.genFailResult(e.getMessage()));
+        ResponseUtils.out(response, ResultUtil.genFailResult(e.getMessage()));
     }
 
 }

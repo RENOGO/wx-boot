@@ -2,15 +2,15 @@
 
 # 最新动态
 
-1、目前优先提供了一系列脚手架功能给开发者使用，帮助开发者快速开发，该模块集中在`wx-common`下，参考本文档第四节的说明。服务模块在完善中，目前在进行用户中心模块、统一鉴权模块、网关模块的处理。
+1、目前优先提供了一系列脚手架功能给开发者使用，帮助开发者快速开发，该模块集中在`wx-common`下，参考本文档第四节的说明。服务模块在完善中，目前完成了鉴权体系的构建，下一步开始搭建后台管理系统相关业务。
 
-2、关于服务的创建模板，可暂时参照`wx-module-usercente`模块进行。
+2、关于服务的创建模板，可暂时参照`wx-module-usercenter`模块进行。
 
 # 一、介绍
 
 wx-boot 是一个专为 Java 开发者设计的快速搭建微服务的脚手架，旨在帮助开发者快速构建高效、可靠的微服务架构，无论你是初学者还是经验丰富的开发者，跟着文档说明走，都能够快速上手即用！
 
-wx-boot集成了多个关键组件和技术，包括 Spring Gateway、ZooKeeper、Dubbo、Redisson 和 Hystrix等，同时提供了 Docker 和 Kubernetes (K8s) 部署支持。
+wx-boot集成了多个关键组件和技术，包括 Spring Gateway、Nacos、Dubbo、Satoken、Redisson 和 Hystrix等，同时提供了 Docker 和 Kubernetes (K8s) 部署支持。
 
 ## 可以做什么？
 
@@ -24,7 +24,7 @@ wx-boot不是纯粹的框架集成库，而是一个微服务服务搭建方案�
 
 wx-boot同样也是一个部署教程方案，提供一整套的微服务部署方案，包括jenkins持续集成、docker、k8s部署，提供了相关组件部署开发说明，尽量减少开发者的上手难度。
 
-1、针对zookeeper、nginx、mysql、redis等需要额外安装配置的中间件，也提供了对应的docker-compose实现，后续也会补充k8s的实现。对docker、docker-compose、k8s等都不熟悉？没关系，在这个项目后续也会有教程一一教会你如何部署使用。
+1、针对nacos、nginx、mysql、redis等需要额外安装配置的中间件，也提供了对应的docker-compose实现，后续也会补充k8s的实现。对docker、docker-compose、k8s等都不熟悉？没关系，在这个项目后续也会有教程一一教会你如何部署使用。
 
 2、对于ELK、SkyWalking、Prometheus、Arthas等同样有使用门口的组件，这里同样会提供相关的部署开发教程，帮助开发者快速搭建自己的服务生态。
 
@@ -46,11 +46,13 @@ wx-boot同样也是一个部署教程方案，提供一整套的微服务部署�
 │   ├── wx-common-web #web相关工具包
 │   ├── wx-common-log #log相关工具包
 │   ├── wx-common-mybatis #mybatis相关工具包
-│   └── wx-common-security #安全模块相关工具
-│   └── wx-common-rpc #rpc相关
-│   └── wx-common-auth-starter #鉴权相关
-├── wx-gateway  #网关，待实现
-├── wx-module-auth #鉴权中心
+│   ├── wx-common-authorization #安全模块，集成satoken，完成授权认证、权限控制等工作
+│   ├── wx-common-security #安全模块，原本打算集成security和oauth2系列框架，目前已弃用，请改用authorization
+│   ├── wx-common-rpc #rpc相关，集成dubbo、nacos相关依赖
+│   ├── wx-common-mq #消息队列模块，提供rabbitmq、kafka脚手架工具，帮助实现消息可靠性等
+│   ├── wx-common-validation #请求参数校验
+├── wx-gateway  #鉴权网关
+├── wx-module-authorization #鉴权中心
 ├── wx-module-usercenter #用户中心
 ├── wx-module-system #后台管理系统
 ├── wx-common-module-services #公共服务
@@ -65,7 +67,7 @@ wx-boot同样也是一个部署教程方案，提供一整套的微服务部署�
 
 注意，并不是要求所有开发者都按照如下架构进行搭建，如ELK日志采集、链路追踪、监控等都是不是必须的，开发者根据自身情况选配，这个架构图仅仅提供了作者对微服务整套体系搭建的一个思路；上图的黄色标注模块，是当前需要完成的功能或服务。
 
-## .2 目标
+## 3.2 目标
 
 1、总体目标：wx-boot提供后台管理系统、用户中心(业务系统的会员用户，非后台用户)、公共服务组、统一鉴权认证、网关等，帮助开发者实现系统管理、用户管理、多种方式登录以及限流等功能，实现周边服务建设，让开发者专注自己的业务系统开发。也就是说，上图业务服务组中的GroupABC....这些业务服务组是开发者需要实现的，周围一圈的服务、中间件wx-boot都会提供给开发者。
 
@@ -869,9 +871,16 @@ Todo
 
 # 八、todo-list
 
-1. 鉴权网关、鉴权中心、用户中心等服务的建设
+1. 用户中心、后台管理系统等服务的建设
 1. 继续完善脚手架相关功能及说明文档
 1. zk、ELK、SkyWalking、Prometheus、Arthas、K8S等外部部署实现说明
 1. 前端可视化实现
 
 # 九、常见问题
+
+为什么选用SaToken而不是Spring生态系列安全库？
+
+1.  SaToken是一个轻量级的权限认证框架，满足了当前市场上大部分的权限认证业务需求，简洁优雅，没有Spring Security系列的繁琐配置、扩展性差等问题。
+
+	2. Spring Oauth2.0系列框架其实在前几年就已经停止维护更新了，现在新推出的client、resource、authorization三个库使用的还不是非常广，而SaToken本身也支持Oauth2.0协议的认证。
+	2. 总结来说，SaToken兼备了绝大部分认证权限场景，轻量易用，不需要折腾各种安全框架的版本，不需要配置大量的拦截器，对搭建权限系统来说十分友好。
